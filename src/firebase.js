@@ -3,6 +3,7 @@ import firebaseui from 'firebaseui';
 // Add the Firebase services that you want to use
 import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/storage';
 
 var config = {
   apiKey: 'AIzaSyDijaSaSlFKTWjWGiKx_sbH06DuoA-ShLk',
@@ -18,4 +19,5 @@ firebase.initializeApp(config);
 
 export { firebaseui };
 export var db = firebase.firestore();
+export var storageRef = firebase.storage().ref();
 export default firebase;

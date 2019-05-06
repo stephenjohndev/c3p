@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Events from './views/Events.vue';
+import Feed from './views/Feed.vue';
+import FeedAdd from './views/FeedAdd.vue';
 
 Vue.use(Router);
 
@@ -11,13 +13,23 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: Home
     },
     {
-      path: '/',
-      name: 'events',
+      path: '/events',
+      name: 'Events',
       component: Events
+    },
+    {
+      path: '/feed',
+      name: 'Feed',
+      component: Feed
+    },
+    {
+      path: '/feed/add',
+      name: 'FeedAdd',
+      component: FeedAdd
     }
     // {
     //   path: '/about',

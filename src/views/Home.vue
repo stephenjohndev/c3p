@@ -1,6 +1,7 @@
 <template lang="pug">
   #home
     router-link(to="events") Events
+    router-link(to="feed") Feed
     h3 Authentication status: {{ $store.getters.isAuthenticated }}
     h3 Authorized status: {{ $store.state.isAuthorized }}
 

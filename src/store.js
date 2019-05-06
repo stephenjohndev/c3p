@@ -68,8 +68,8 @@ export default new Vuex.Store({
     },
     post ({ dispatch }, data) {
       db.collection('feed').add({
-        title: 'Test Title',
-        body: data
+        title: data.title,
+        body: data.body
       }).then(doc => {
         dispatch('getFeed');
       });
