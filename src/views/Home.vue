@@ -1,8 +1,6 @@
 <template lang="pug">
   #home
-    .container(style="background-color: red")
-      p I'm inside a container
-      button test
+    h1 Home
 </template>
 
 
