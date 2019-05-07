@@ -1,9 +1,15 @@
 <template lang="pug">
   #home
-    .container(style="background-color: red")
-      p I'm inside a container
-      button test
+    .container
+      h1 Hello
 </template>
+
+<style lang="sass">
+@import '../assets/style'
+h1
+  @include to($tablet-landscape)
+    color: red
+</style>
 
 
 <script>
