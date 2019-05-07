@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { db, firebaseui } from './firebase';
+import { db, firebaseui, storageRef } from './firebase';
 import * as firebase from 'firebase/app';
 
 Vue.use(Vuex);
@@ -66,12 +66,24 @@ export default new Vuex.Store({
           console.log('Error getting documents', err);
         });
     },
-    post ({ dispatch }, data) {
-      db.collection('feed').add({
-        title: data.title,
-        body: data.body
-      }).then(doc => {
-        dispatch('getFeed');
+    postFeed ({ dispatch }, data) {
+      // Upload photo
+      var file = data.cover;
+      var randomInt = (Math.floor(Math.random() * 1000000));
+      var filename = randomInt + '_' + data.cover.name;
+      var fileRef = storageRef.child('images/' + filename);
+
+      fileRef.put(file).then(function (snapshot) {
+        fileRef.getDownloadURL().then(fileURL => {
+          db.collection('feed').add({
+            title: data.title,
+            body: data.body,
+            cover: fileURL
+          }).then(doc => {
+            dispatch('getFeed');
+          });
+        });
+        // Write data to database
       });
     }
   }

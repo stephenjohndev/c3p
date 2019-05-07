@@ -3,7 +3,7 @@
 
     label(for="upload")
       div.post__coverUploader
-    input(type="file" id="upload" @change="previewFile" style="display: none")
+    input(type="file" accept="image/*" id="upload" @change="previewFile" style="display: none")
     br
     input(type="text" placeholder="Title" v-model="title").post__titleInput
     br
@@ -12,6 +12,46 @@
     br
     button(@click="submitPost").post__submit Post
 </template>
+
+<script>
+export default {
+	data() {
+		return {
+			title: "",
+			body: "",
+			cover: {}
+		};
+	},
+	methods: {
+		submitPost() {
+			this.$store.dispatch("postFeed", {
+				title: this.title,
+				body: this.body,
+				cover: this.cover
+			});
+		},
+
+		previewFile() {
+			var preview = document.querySelector(".post__coverUploader");
+			var file = document.querySelector("input[type=file]").files[0];
+			var reader = new FileReader();
+
+			reader.addEventListener(
+				"load",
+				() => {
+					preview.style.backgroundImage = "url(" + reader.result + ")";
+				},
+				false
+			);
+
+			if (file) {
+				reader.readAsDataURL(file);
+        this.cover = file
+			}
+		}
+	}
+};
+</script>
 
 <style lang="sass">
 *
@@ -40,42 +80,3 @@
   border: none
   cursor: pointer
 </style>
-<script>
-export default {
-  data () {
-    return {
-      title: '',
-      body: ''
-    }
-  },
-  methods: {
-    submitPost(){
-      this.$store.dispatch('post', {
-        title: this.title,
-        body: this.body
-      })
-    }
-    ,
-    previewFile() {
-			var preview = document.querySelector(".post__coverUploader");
-			var file = document.querySelector("input[type=file]").files[0];
-			var reader = new FileReader();
-
-			reader.addEventListener(
-				"load",
-				function() {
-          // preview.src = reader.result;
-          preview.style.backgroundImage = 'url(' + reader.result + ')';
-				},
-				false
-			);
-
-			if (file) {
-				reader.readAsDataURL(file);
-			}
-		}
-  }
-
-};
-</script>
-

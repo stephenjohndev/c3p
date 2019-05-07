@@ -17,7 +17,12 @@ var config = {
 // Initialize Firebase
 firebase.initializeApp(config);
 
-export { firebaseui };
-export var db = firebase.firestore();
-export var storageRef = firebase.storage().ref();
+// Configure Firestore
+var db = firebase.firestore();
+db.enablePersistence();
+
+// Configure Storage
+var storageRef = firebase.storage().ref();
+
+export { firebaseui, db, storageRef };
 export default firebase;

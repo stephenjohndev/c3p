@@ -6,6 +6,7 @@
     .card(v-for="post, key in $store.state.feed")
       h2 {{post.title}}
       p(v-html="post.body")
+      a(:href="post.cover") {{post.cover}}
 </template>
 
 <script>
