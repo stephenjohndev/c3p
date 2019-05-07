@@ -6,9 +6,9 @@
 
 <style lang="sass">
 @import '../assets/style'
-h1
-  @include to($tablet-landscape)
-    color: red
+// h1
+//   @include to($tablet-landscape)
+//     color: red
 </style>
 
 

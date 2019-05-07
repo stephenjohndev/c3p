@@ -16,7 +16,15 @@ export default new Router({
     {
       path: '/admin',
       name: 'admin',
-      component: () => import(/* webpackChunkName: "about" */ './views/Admin.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Admin.vue'),
+      redirect: '/admin/feed',
+      children: [
+        {
+          path: 'feed',
+          name: 'admin-feed',
+          component: () => import(/* webpackChunkName: "about" */ './views/admin/AdminFeed.vue'),
+        },  
+      ]
     }
   ]
 })

@@ -9,10 +9,10 @@ import './assets/style.sass';
 
 // FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPlus, faHome, faBullhorn, faCalendarAlt, faImages, faAngleLeft, faEllipsisV, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faHome, faBullhorn, faCalendarAlt, faImages, faAngleLeft, faEllipsisV, faStar, faBars, faSignOutAlt, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faPlus, faHome, faAngleLeft, faBullhorn, faCalendarAlt, faImages, faEllipsisV, faStar);
+library.add(faPlus, faHome, faAngleLeft, faBullhorn, faCalendarAlt, faImages, faEllipsisV, faStar, faBars, faSignOutAlt, faEdit, faTrash);
 
 Vue.component('fa', FontAwesomeIcon);
 
