@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
-import Events from './views/Events.vue';
-import Feed from './views/Feed.vue';
-import FeedAdd from './views/FeedAdd.vue';
+import Store from './store';
+import Admin from './views/Admin.vue';
+
+import AdminFeed from './views/admin/AdminFeed.vue';
+import AdminEvents from './views/admin/AdminEvents.vue';
 
 Vue.use(Router);
 
@@ -19,15 +21,29 @@ export default new Router({
     {
       path: '/admin',
       name: 'admin',
-      component: () => import(/* webpackChunkName: "about" */ './views/Admin.vue'),
+      component: Admin,
       redirect: '/admin/feed',
       children: [
         {
           path: 'feed',
           name: 'admin-feed',
-          component: () => import(/* webpackChunkName: "about" */ './views/admin/AdminFeed.vue'),
-        },  
+          component: AdminFeed
+        },
+        {
+          path: 'feed/:id',
+          component: AdminFeed
+        },
+        {
+          path: 'events',
+          name: 'admin-events',
+          component: AdminEvents
+        }
       ]
+    },
+    {
+      path: '*',
+      name: 'Home',
+      component: Home
     }
   ]
 });

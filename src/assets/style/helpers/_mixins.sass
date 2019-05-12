@@ -1,0 +1,19 @@
+@mixin actionable-primary
+  cursor: pointer
+  transition: 0.2s background-color
+  -webkit-tap-highlight-color: transparent
+  &:hover
+    background-color: $color-primary-hover
+  &:active
+    background-color: $color-primary-active
+
+@mixin actionable-primary-dark
+  cursor: pointer
+  transition: 0.2s background-color
+  -webkit-tap-highlight-color: transparent
+  &:hover
+    background-color: darken($color-accent-dark,2.5)
+  &:active
+    background-color: darken($color-accent-dark,5)
+
+  

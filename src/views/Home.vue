@@ -1,45 +1,29 @@
 <template lang="pug">
   #home
-    router-link(to="events") Events
-    router-link(to="feed") Feed
-    h3 Authentication status: {{ $store.getters.isAuthenticated }}
-    h3 Authorized status: {{ $store.state.isAuthorized }}
-
-    template(v-if="$store.state.isAuthorized")
-      h3 Admin Control
-      quill-editor(
-        v-model="content"
-        ref="myQuillEditor")
-      button(@click="submitPost") Post
-      
-      
-
-    template(v-for="post, key in $store.state.feed")
-      h1 {{post.title}}
-      p(v-html="post.body")
-      hr
+    home-nav
+    home-highlight
+    home-latest
 </template>
 
-<style lang="sass">
-@import '../assets/style'
-// h1
-//   @include to($tablet-landscape)
-//     color: red
-</style>
 
 
 <script>
+import layoutContainer from '@/components/layoutContainer'
+import homeNav from '@/components/homeNav'
+import homeHighlight from '@/components/homeHighlight'
+import homeLatest from '@/components/homeLatest'
 export default {
-	name: "home",
+  name: "home",
+  components: {
+    layoutContainer,
+    homeNav,
+    homeHighlight,
+    homeLatest
+  },
 	data() {
-		return {
-			content: ""
-		};
+    return {}
   },
   methods: {
-    submitPost(){
-      this.$store.dispatch('post', this.content)
-    }
   }
 };
 </script>

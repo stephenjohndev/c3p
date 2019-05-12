@@ -1,51 +1,51 @@
 <template lang="pug">
   #admin-feed
-    .adminFeed__sectionWrapper
-      section.feedControl
-        header.feedControl__header
-          button.--primary Add New
-        section.feedControl__feeds
-          .feedCard
-            h1.feedCard__title Title
-            p.feedCard__body body
-          .feedCard.feedCard--active
-            h1.feedCard__title Title
-            p.feedCard__body body
-          .feedCard
-            h1.feedCard__title Title
-            p.feedCard__body body
-          .feedCard
-            h1.feedCard__title Title
-            p.feedCard__body body
-          .feedCard
-            h1.feedCard__title Title
-            p.feedCard__body body
-      section.selectedPost
-        header.selectedPost__header
-          div.action_group
-            .selectedPost__action.selectedPost__back
-              fa(icon="angle-left")
-          div.action_group
-            .selectedPost__action
-              fa(icon="trash")
-            .selectedPost__action
-              fa(icon="edit")
-        div.selectedPost__cover
-        h1.selectedPost__title Title
-        div.selectedPost__body
+
+    section.feedControl
+      header.feedControl__header
+        button.--primary Add New
+      section.feedControl__feeds
+        router-link.feedCard(:to="'/admin/feed/' + post.id" v-for="post,index in $store.state.feed" :key="index")
+          h1.feedCard__title {{ post.title }}
+          p.feedCard__body {{ post.body }}
+
+    section.selectedPost(v-if="typeof(activePost) != 'undefined'")
+      header.selectedPost__header
+        div.action_group
+          .selectedPost__action.selectedPost__back(@click="$router.back()")
+            fa(icon="angle-left")
+        div.action_group
+          .selectedPost__action
+            fa(icon="trash")
+          .selectedPost__action
+            fa(icon="edit")
+      div.selectedPost__cover
+      h1.selectedPost__title {{ $store.state.feed.find(post => post.id == $route.params.id).title}}
+      div.selectedPost__body {{ $store.state.feed.find(post => post.id == $route.params.id).body}}
 
 </template>
+
+<script>
+export default {
+  computed: {
+    activePost(){
+      if(typeof(this.$route.params.id) != 'undefined')
+        return this.$store.state.feed.find(post => post.id == this.$route.params.id)
+      return undefined
+    },
+  }
+}
+</script>
+
 
 <style lang="sass" scoped>
 @import ../../assets/style
 
 #admin-feed
-  height: 100%
-.adminFeed__sectionWrapper
-  display: flex
   width: 100%
-  align-items: stretch
   height: 100%
+  display: flex
+  align-items: stretch
 
 .feedControl
   @include from($desktop)
@@ -61,7 +61,12 @@
   background-color: $color-background-light
   box-shadow: $shadow
   border-radius: 0.25rem
-.feedCard--active
+  display: block
+  text-decoration: none
+  color: $color-text
+  border-left: 4px solid transparent
+
+.feedCard.router-link-active
   border-left: 4px solid $color-primary
 
 .feedCard__title
@@ -74,14 +79,14 @@
   padding-bottom: 1rem
 
 .selectedPost
-  // @include to($tablet-landscape)
-  //   position: absolute
-  //   width: 100vw
-  //   height: 100vh
-  //   max-width: 100vw
-  //   max-height: 100vh
-  //   top: 0
-  //   left: 0
+  @include to($tablet-landscape)
+    position: absolute
+    width: 100vw
+    height: 100vh
+    max-width: 100vw
+    max-height: 100vh
+    top: 0
+    left: 0
   flex-grow: 1
   background-color: $color-background-light
   overflow-x: hidden
