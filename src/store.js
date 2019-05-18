@@ -5,12 +5,14 @@ import * as firebase from 'firebase/app';
 
 // Import modules
 import feed from './modules/feed';
+import events from './modules/events';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    feed
+    feed,
+    events
   },
   state: {
     hasPendingActivity: false

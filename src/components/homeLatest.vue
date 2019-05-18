@@ -103,9 +103,11 @@
   font-weight: bold
   border-radius: 2rem
   display: inline-block
-  margin-top: $pad
   text-decoration: none
   @include actionable-primary
+
+  @include from($tablet-portrait)
+    margin-top: $pad
       
 </style>
 

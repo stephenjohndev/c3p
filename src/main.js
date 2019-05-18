@@ -26,6 +26,8 @@ import VueCarousel from 'vue-carousel';
 
 // Line Clamp
 import lineClamp from 'vue-line-clamp';
+
+// Odometer
 Vue.use(VueCarousel);
 library.add(faPlus, faHome, faAngleLeft, faAngleRight, faBullhorn, faCalendarAlt, faImages, faEllipsisV, faStar, faBars, faSignOutAlt, faEdit, faTrash, faSearch, faPhone, faAngleDown, faSave, faTimes);
 Vue.component('fa', FontAwesomeIcon);

@@ -11,16 +11,16 @@
     .homeHighlight__navigator
     layout-container(extendboth)
       .homeEvents__items
-        carousel(ref="carousel" v-model="currentSlide" :loop="true" :perPage="1" :perPageCustom="[[600, $store.state.feed.latest.length >=3 ? 3 : $store.state.feed.latest.length]]" :paginationEnabled="false")
-          slide(v-for="latest, index in $store.state.feed.latest" :key="index")
+        carousel(ref="carousel" v-model="currentSlide" :loop="true" :perPage="1" :perPageCustom="[[600, $store.state.events.upcomingEvents.length >=3 ? 3 : $store.state.events.upcomingEvents.length]]" :paginationEnabled="false")
+          slide(v-for="event, index in $store.state.events.upcomingEvents" :key="index")
             .homeEvents__item
-              .homeEvents__banner(:style="{backgroundImage: 'url(' + latest.cover + ')'}")
+              .homeEvents__banner(:style="{backgroundImage: 'url(' + event.cover + ')'}")
               .homeEvents__contentWrapper
                 .homeEvents__left
-                  h3.homeEvents__title {{ latest.title }}
-                  p.homeEvents__venue {{ latest.body }}
+                  h3.homeEvents__title {{ event.title }}
+                  p.homeEvents__venue {{ event.venue }}
                 .homeEvents__right
-                  span APR 1
+                  span {{ getDisplayDate(event) }}
     center: button.homeEvents__seeAll See all events
 </template>
 
@@ -73,6 +73,7 @@
     
 
 .homeEvents__item
+  margin: auto
 
   @include to($phone)
     padding: $pad
@@ -133,7 +134,7 @@
 import layoutContainer from '@/components/layoutContainer'
 export default {
   mounted() {
-    this.$store.dispatch('loadLatest')
+    this.$store.dispatch('loadUpcomingEvents')
   },
   components: {
     layoutContainer
@@ -141,6 +142,20 @@ export default {
   data(){
     return{
       currentSlide: 0
+    }
+  },
+  methods: {
+    getDisplayDate(event){
+      var startSymbolArray = event.start.toDate().toString().split(" ")
+      var start = startSymbolArray[1] + " " + startSymbolArray[2].replace(/^0+/, '')
+      var endSymbolArray = event.end.toDate().toString().split(" ")
+      var end = endSymbolArray[1] + " " + endSymbolArray[2].replace(/^0+/, '')
+
+      if(start == end)
+        return start
+      else
+        return start + "-" + endSymbolArray[2].replace(/^0+/, '')
+      
     }
   }
 }
