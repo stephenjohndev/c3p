@@ -61,6 +61,7 @@ export default {
   background-color: #ddf
   cursor: pointer
   background-position: center
+  background-position: center
   background-size: cover
 
 .post__titleInput

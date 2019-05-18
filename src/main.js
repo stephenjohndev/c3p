@@ -9,7 +9,7 @@ import './assets/style.sass';
 
 // FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPlus, faHome, faBullhorn, faCalendarAlt, faImages, faAngleLeft, faEllipsisV, faStar, faBars, faSignOutAlt, faEdit, faTrash, faSearch, faPhone, faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faHome, faBullhorn, faCalendarAlt, faImages, faAngleLeft, faEllipsisV, faStar, faBars, faSignOutAlt, faEdit, faTrash, faSearch, faPhone, faAngleRight, faAngleDown, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 // Firebase UI Style
@@ -27,7 +27,7 @@ import VueCarousel from 'vue-carousel';
 // Line Clamp
 import lineClamp from 'vue-line-clamp';
 Vue.use(VueCarousel);
-library.add(faPlus, faHome, faAngleLeft, faAngleRight, faBullhorn, faCalendarAlt, faImages, faEllipsisV, faStar, faBars, faSignOutAlt, faEdit, faTrash, faSearch, faPhone, faAngleDown);
+library.add(faPlus, faHome, faAngleLeft, faAngleRight, faBullhorn, faCalendarAlt, faImages, faEllipsisV, faStar, faBars, faSignOutAlt, faEdit, faTrash, faSearch, faPhone, faAngleDown, faSave, faTimes);
 Vue.component('fa', FontAwesomeIcon);
 Vue.use(lineClamp);
 

@@ -3,72 +3,101 @@ import Vuex from 'vuex';
 import { db, firebaseui, storageRef } from './firebase';
 import * as firebase from 'firebase/app';
 
+// Import modules
+import feed from './modules/feed';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  modules: {
+    feed
+  },
   state: {
-    announcements: null,
-    feed: [],
-    user: null,
-    isAuthorized: false
+    hasPendingActivity: false
   },
   getters: {
-
-  },
-  mutations: {
-    setFeed (state, data) {
-      state.feed = data;
-    },
-    setUser (state, data) {
-      state.user = data;
-    },
-    setAuthorized (state, data) {
-      state.isAuthorized = data;
+    hasPendingActivity (state) {
+      return state.hasPendingActivity;
     }
   },
-  actions: {
-    initUser ({ commit, dispatch }) {
-      firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-          commit('setUser', user);
-          dispatch('checkAuthorization', user);
-        }
-      });
-    },
-    checkAuthorization ({ commit }, user) {
-      db.collection('users').doc(user.uid).get()
-        .then(doc => {
-          commit('setAuthorized', doc.data().isAuthorized);
-        });
-    },
-    initFBUI () {
-      var ui = new firebaseui.auth.AuthUI(firebase.auth());
-      ui.start('#firebaseui-auth-container', {
-        signInSuccessUrl: 'http://localhost:8080',
-        signInOptions: [
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID
-        ]
-        // Other config options...
-      });
-    },
-    getFeed ({ commit }) {
-      var feedRef = db.collection('feed');
-      var feeds = [];
-      feedRef.get()
-        .then(snapshot => {
-          snapshot.forEach(doc => {
-            var data = doc.data();
-            data.id = doc.id;
-            feeds.push(data);
-          });
-          commit('setFeed', feeds);
-        })
-        .catch(err => {
-          console.log('Error getting documents', err);
-        });
+  mutations: {
+    setHasPendingActivity (state, value) {
+      if (value) {
+        window.onbeforeunload = function () {
+          return '';
+        };
+      } else {
+        window.onbeforeunload = null;
+      }
+      state.hasPendingActivity = value;
     }
   }
 });
+
+// export default new Vuex.Store({
+//   state: {
+//     announcements: null,
+//     feed: [],
+//     user: null,
+//     isAuthorized: false
+//   },
+//   getters: {
+
+//   },
+//   mutations: {
+//     setFeed (state, data) {
+//       state.feed = data;
+//     },
+//     setUser (state, data) {
+//       state.user = data;
+//     },
+//     setAuthorized (state, data) {
+//       state.isAuthorized = data;
+//     }
+//   },
+//   actions: {
+//     initUser ({ commit, dispatch }) {
+//       firebase.auth().onAuthStateChanged(function (user) {
+//         if (user) {
+//           commit('setUser', user);
+//           dispatch('checkAuthorization', user);
+//         }
+//       });
+//     },
+//     checkAuthorization ({ commit }, user) {
+//       db.collection('users').doc(user.uid).get()
+//         .then(doc => {
+//           commit('setAuthorized', doc.data().isAuthorized);
+//         });
+//     },
+//     initFBUI () {
+//       var ui = new firebaseui.auth.AuthUI(firebase.auth());
+//       ui.start('#firebaseui-auth-container', {
+//         signInSuccessUrl: 'http://localhost:8080',
+//         signInOptions: [
+//           firebase.auth.GoogleAuthProvider.PROVIDER_ID
+//         ]
+//         // Other config options...
+//       });
+//     },
+//     getFeed ({ commit }) {
+//       var feedRef = db.collection('feed');
+//       var feeds = [];
+//       feedRef.get()
+//         .then(snapshot => {
+//           snapshot.forEach(doc => {
+//             var data = doc.data();
+//             data.id = doc.id;
+//             feeds.push(data);
+//           });
+//           commit('setFeed', feeds);
+//         })
+//         .catch(err => {
+//           console.log('Error getting documents', err);
+//         });
+//     }
+//   }
+// });
 
 // export default new Vuex.Store({
 //   state: {

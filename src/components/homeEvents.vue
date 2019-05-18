@@ -1,53 +1,56 @@
 <template lang="pug">
-  #homeLatest
+  #homeEvents
     layout-container
-      .homeLatest__nav
-        h2.homeLatest__label Latest
-        .homeLatest__controls
-          .homeLatest__control(@click="$refs.carousel.goToPage($refs.carousel.getPreviousPage())")
+      .homeEvents__nav
+        h2.homeEvents__label Upcoming Events
+        .homeEvents__controls
+          .homeEvents__control(@click="$refs.carousel.goToPage($refs.carousel.getPreviousPage())")
             fa(icon="angle-left")
-          .homeLatest__control(@click="$refs.carousel.advancePage()")
+          .homeEvents__control(@click="$refs.carousel.advancePage()")
             fa(icon="angle-right")
     .homeHighlight__navigator
     layout-container(extendboth)
-      .homeLatest__items
+      .homeEvents__items
         carousel(ref="carousel" v-model="currentSlide" :loop="true" :perPage="1" :perPageCustom="[[600, $store.state.feed.latest.length >=3 ? 3 : $store.state.feed.latest.length]]" :paginationEnabled="false")
           slide(v-for="latest, index in $store.state.feed.latest" :key="index")
-            .homeLatest__item
-              .homeLatest__banner(:style="{backgroundImage: 'url(' + latest.cover + ')'}")
-              h3.homeLatest__title {{ latest.title }}
-              p.homeLatest__content(v-line-clamp:24="2") {{ latest.body }}
-              a.homeLatest__readmore(href="#") Read more
-    center: router-link(:to="{name: 'Feed'}").homeLatest__seeAll See all news
+            .homeEvents__item
+              .homeEvents__banner(:style="{backgroundImage: 'url(' + latest.cover + ')'}")
+              .homeEvents__contentWrapper
+                .homeEvents__left
+                  h3.homeEvents__title {{ latest.title }}
+                  p.homeEvents__venue {{ latest.body }}
+                .homeEvents__right
+                  span APR 1
+    center: button.homeEvents__seeAll See all events
 </template>
 
 <style lang="sass" scoped>
 @import '../assets/style'
 
-#homeLatest
+#homeEvents
   padding-top: $pad*2
   padding-bottom: $pad*2
   border-bottom: 1px solid $color-layout-border
-  background-color: $color-accent-dark
-  color: $color-against-primary
+  background-color: $color-background
 
-.homeLatest__nav
+.homeEvents__nav
   display: flex
   align-items: center
   justify-content: space-between
   @include from($tablet-portrait)
     justify-content: center
 
-.homeLatest__label
+.homeEvents__label
+  color: $color-primary
   
 
-.homeLatest__controls
+.homeEvents__controls
   display: flex
   @include from($tablet-portrait)
     display: none
   
 
-.homeLatest__control
+.homeEvents__control
   background-color: $color-primary-translucent
   color: $color-against-primary
   width: 3rem
@@ -59,52 +62,68 @@
   border-radius: 50%
   font-size: 1.5rem
   @include actionable-primary-dark
-
-.homeLatest__items
+  
+.homeEvents__items
   @include from($tablet-portrait)
     max-width: 1024px
     margin-left: auto
     margin-right: auto
     margin-top: 1rem
+    margin-bottom: 2rem
+    
 
-.homeLatest__item
-  padding: 0.25rem $pad 1rem $pad
-  @include actionable-primary
+.homeEvents__item
 
-.homeLatest__item + .homeLatest__item
+  @include to($phone)
+    padding: $pad
+  
+  @include from($tablet-portrait)
+    margin: 0 $pad
+    border: 1px solid $color-layout-border
+    border-radius: 0.5rem
+    overflow: hidden
+    background-color: $color-background-light
+
+
+.homeEvents__item + .homeEvents__item
   @include from($tablet-portrait)
     border-left: 1px solid $color-layout-border-inverted
 
-
-.homeLatest__banner
+.homeEvents__banner
   height: 50vw
   background-image: url('http://lorempixel.com/400/200')
   background-size: cover
   background-position: center
-  margin-top: 1rem
   margin-bottom: 1rem
   @include from($tablet-portrait)
     height: 10rem
 
-.homeLatest__content
-  opacity: 0.5
+.homeEvents__title
+  margin-bottom: 0
 
-.homeLatest__readmore
-  text-decoration: none
-  color: $color-against-primary
-  font-weight: bold
-  display: inline-block
+.homeEvents__contentWrapper
+  display: flex
+  @include from($tablet-portrait)
+    @include to($tablet-portrait)
+      flex-direction: column
+      align-items: flex-start
+  justify-content: space-between
+  align-items: center
+  margin: 1rem
+  .homeEvents__venue
+    opacity: 0.7
+  .homeEvents__right
+    font-weight: bold
+    color: $color-primary
+  
 
-.homeLatest__seeAll
+.homeEvents__seeAll
   padding: 0.5rem 1.5rem
   text-align: center
   background-color: $color-primary
   color: $color-against-primary
   font-weight: bold
   border-radius: 2rem
-  display: inline-block
-  margin-top: $pad
-  text-decoration: none
   @include actionable-primary
       
 </style>

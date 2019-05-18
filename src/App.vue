@@ -8,9 +8,10 @@
 <script>
 export default {
   mounted(){
-    this.$store.dispatch('getFeed') 
-    this.$store.dispatch('initUser') // Load current user whether existing or null
-    this.$store.dispatch('initFBUI') // Initialize Firebase Auth UI
+    
+    // this.$store.dispatch('getFeed') 
+    // this.$store.dispatch('initUser') // Load current user whether existing or null
+    // this.$store.dispatch('initFBUI') // Initialize Firebase Auth UI
   },
   data(){
     return{

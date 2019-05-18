@@ -1,21 +1,27 @@
 <template lang="pug">
   #homeNav
-    layout-container.homeNav__innerWrapper(extendboth)
-      .homeNav__actionGroup
-        .homeNav__action.homeNav__bars(@click="sidebarShown = true")
-          fa(icon="bars")
-        company-logo
-      .homeNav__actionGroup
-        ul.homeNav__links
-          li(v-for="link in links")
-            a.homeNav__link(:href="link.link") {{ link.name }}
-              fa(icon="angle-down" v-if="link.child.length > 0")
-            ul.homeNav__sublinks(v-if="link.child.length > 0")
-              li(v-for="sublink in link.child")
-                a.homeNav__sublink(:href="sublink.link")  {{ sublink.name }}
+    headroom(style='width: 100%' :speed="200")
+      header
+        layout-container.homeNav__innerWrapper(extendboth)
+          .homeNav__actionGroup
+            .homeNav__action.homeNav__bars(@click="sidebarShown = true")
+              fa(icon="bars")
+            company-logo
+          .homeNav__actionGroup
+            ul.homeNav__links
+              li(v-for="link in links")
+                a.homeNav__link(:href="link.link") {{ link.name }}
+                  fa(icon="angle-down" v-if="link.child.length > 0")
+                ul.homeNav__sublinks(v-if="link.child.length > 0")
+                  li(v-for="sublink in link.child")
+                    a.homeNav__sublink(:href="sublink.link")  {{ sublink.name }}
+              
 
-        .homeNav__action
-          fa(icon="search" @click="search")
+            .homeNav__action
+              fa(icon="search" @click="search")
+            .homeNav__action
+              fa(icon="ellipsis-v")
+          
 
     
     div.homeNav__sidebarCover(v-if="sidebarShown" @click="sidebarShown = false")
@@ -35,14 +41,18 @@
 
 #homeNav
   z-index: 10
-  position: sticky
-  top: 0
+  background-color: $color-primary
+  // position: sticky
+  // top: 0
+  
+    
+
+header
   background-color: $color-primary
   border-bottom: 1px solid $color-layout-border-inverted
-  display: flex
-
   @include from($tablet-landscape)
     height: 6rem
+    display: flex
 
 .homeNav__innerWrapper
   display: flex
@@ -110,12 +120,19 @@
   padding: $pad
   width: 3rem
   margin: 0.5rem
+  margin-right: 0
   height: 3rem
   display: flex
   align-items: center
   justify-content: center
   border-radius: 50%
   @include actionable-primary
+
+.homeNav__action + .homeNav__action
+  margin-left: 0
+
+.homeNav__action:last-child
+  margin-right: 0.5rem
 
 .homeNav__bars
   @include from($tablet-landscape)
@@ -128,11 +145,13 @@
   position: fixed
   top: 0
   left: 0
+  z-index: 10000
 
   @include from($tablet-landscape)
     display: none
 
 .homeSidebar
+  z-index: 10000
   position: fixed
   top: 0
   left: 0
@@ -182,12 +201,15 @@
 
 
 <script>
+import { headroom } from 'vue-headroom'
+ 
 import layoutContainer from "@/components/layoutContainer";
 import companyLogo from "@/components/companyLogo";
 export default {
 	components: {
 		layoutContainer,
-		companyLogo
+    companyLogo,
+    headroom
   },
   methods:{
     search(){
@@ -210,7 +232,7 @@ export default {
 				},
 				{
 					name: "Programs",
-					link: "/programs",
+					link: "/#!",
 					child: [
 						{
 							name: "Women Rock IT",
@@ -233,6 +255,11 @@ export default {
 							child: []
 						}
 					]
+				},
+				{
+					name: "Gallery",
+					link: "/gallery",
+					child: []
 				},
 				{
 					name: "Resources",
