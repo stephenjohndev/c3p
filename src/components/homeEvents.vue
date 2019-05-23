@@ -13,7 +13,7 @@
       .homeEvents__items
         carousel(ref="carousel" v-model="currentSlide" :loop="true" :perPage="1" :perPageCustom="[[600, $store.state.events.upcomingEvents.length >=3 ? 3 : $store.state.events.upcomingEvents.length]]" :paginationEnabled="false")
           slide(v-for="event, index in $store.state.events.upcomingEvents" :key="index")
-            .homeEvents__item
+            router-link.homeEvents__item(:to="'/events/' + event.id")
               .homeEvents__banner(:style="{backgroundImage: 'url(' + event.cover + ')'}")
               .homeEvents__contentWrapper
                 .homeEvents__left
@@ -21,7 +21,7 @@
                   p.homeEvents__venue {{ event.venue }}
                 .homeEvents__right
                   span {{ getDisplayDate(event) }}
-    center: button.homeEvents__seeAll See all events
+    center: router-link.homeEvents__seeAll(:to="{name: 'Events'}") See all events
 </template>
 
 <style lang="sass" scoped>
@@ -52,7 +52,7 @@
 
 .homeEvents__control
   background-color: $color-primary-translucent
-  color: $color-against-primary
+  color: $color-primary
   width: 3rem
   height: 3rem
   margin-left: 0.5rem
@@ -68,12 +68,15 @@
     max-width: 1024px
     margin-left: auto
     margin-right: auto
-    margin-top: 1rem
+    margin-top: 2rem
     margin-bottom: 2rem
     
 
 .homeEvents__item
   margin: auto
+  color: inherit
+  text-decoration: none
+  display: block
 
   @include to($phone)
     padding: $pad
@@ -101,20 +104,22 @@
 
 .homeEvents__title
   margin-bottom: 0
+  font-weight: 500
 
 .homeEvents__contentWrapper
   display: flex
   @include from($tablet-portrait)
     @include to($tablet-portrait)
       flex-direction: column
-      align-items: flex-start
   justify-content: space-between
-  align-items: center
+  align-items: flex-start
   margin: 1rem
   .homeEvents__venue
     opacity: 0.7
+    font-size: 0.9rem
+    margin-top: 0.25rem
   .homeEvents__right
-    font-weight: bold
+    font-weight: 500
     color: $color-primary
   
 
@@ -122,8 +127,9 @@
   padding: 0.5rem 1.5rem
   text-align: center
   background-color: $color-primary
+  text-decoration: none
   color: $color-against-primary
-  font-weight: bold
+  font-weight: 500
   border-radius: 2rem
   @include actionable-primary
       

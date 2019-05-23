@@ -6,22 +6,22 @@
           .homeNav__actionGroup
             .homeNav__action.homeNav__bars(@click="sidebarShown = true")
               fa(icon="bars")
-            company-logo
+            company-logo.company-logo
           .homeNav__actionGroup
             ul.homeNav__links
               li(v-for="link in links")
-                a.homeNav__link(:href="link.link") {{ link.name }}
+                router-link.homeNav__link(:to="link.link") {{ link.name }}
                   fa(icon="angle-down" v-if="link.child.length > 0")
                 ul.homeNav__sublinks(v-if="link.child.length > 0")
                   li(v-for="sublink in link.child")
-                    a.homeNav__sublink(:href="sublink.link")  {{ sublink.name }}
+                    router-link.homeNav__sublink(:to="sublink.link")  {{ sublink.name }}
               
 
             .homeNav__action
               fa(icon="search" @click="search")
-            .homeNav__action
-              fa(icon="ellipsis-v")
-          
+            span.homeNav__divider
+            .homeNav__action(@click="$router.push({name: 'Admin'})")
+              fa(icon="user-cog")
 
     
     div.homeNav__sidebarCover(v-if="sidebarShown" @click="sidebarShown = false")
@@ -53,6 +53,10 @@ header
   @include from($tablet-landscape)
     height: 6rem
     display: flex
+
+.company-logo
+  @include to($tablet-portrait)
+    display: none !important
 
 .homeNav__innerWrapper
   display: flex
@@ -163,6 +167,14 @@ header
   @include from($tablet-landscape)
     display: none
 
+.homeNav__divider
+  height: 2rem
+  width: 1px
+  background-color: $color-accent
+  display: block
+  margin-left: 1.5rem
+  opacity: 0.5
+
 .homeSidebar__links
   margin: 0.5rem 0
 
@@ -171,7 +183,7 @@ header
   display: block
   text-decoration: none
   color: $color-primary
-  font-weight: bold
+  font-weight: 500
   transition: 0.2s background-color
   &:hover
     background-color: $color-primary-translucent
@@ -222,7 +234,7 @@ export default {
 			links: [
 				{
 					name: "Home",
-					link: "/home",
+					link: "/",
 					child: []
 				},
 				{
@@ -261,11 +273,6 @@ export default {
 					link: "/gallery",
 					child: []
 				},
-				{
-					name: "Resources",
-					link: "/resources",
-					child: []
-				}
 			]
 		};
 	}

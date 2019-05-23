@@ -1,26 +1,14 @@
 <template lang="pug">
   #app
     //- #firebaseui-auth-container(v-if="!$store.state.user")
-    router-view
-    
+    transition(name="fade" mode="out-in")
+      router-view
+  
 </template>
 
-<script>
-export default {
-  mounted(){
-    
-    // this.$store.dispatch('getFeed') 
-    // this.$store.dispatch('initUser') // Load current user whether existing or null
-    // this.$store.dispatch('initFBUI') // Initialize Firebase Auth UI
-  },
-  data(){
-    return{
-    }
-  }
-};
-</script>
-
 <style lang="sass">
+@import './assets/style'
+
 body
   font-family: sans-serif
   color: #333

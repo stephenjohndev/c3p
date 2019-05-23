@@ -13,6 +13,7 @@
 <style lang="sass" scoped>
 @import '../assets/style'
 #homeAbout
+  background-color: $color-background-light
   @include from($tablet-landscape)
     display: flex
     align-items: center

@@ -12,11 +12,11 @@
     
     div.feeds
       layout-container
-        div.feed(v-for="post, index in $store.state.feed.feed" :key="post.id")
+        router-link.feed(v-for="post, index in $store.state.feed.feed" :to="'/feed/' + post.id" :key="post.id")
           div.feed__banner(:style="{backgroundImage: 'url(' + post.cover + ')'}")
           div.feed__contents
             h2.feed__title {{ post.title }}
-            p.feed__content(v-line-clamp:72="6") {{ post.body }}
+            p.feed__content.unsetNodes(v-line-clamp:72="6" v-html="post.body")
 
 </template>
 
@@ -61,6 +61,8 @@
   display: grid
   grid-template-columns: 1fr
   cursor: pointer
+  text-decoration: none
+  color: inherit
 
   @include from($tablet-portrait)
     grid-template-columns: 1fr 1fr
@@ -96,6 +98,7 @@ export default {
     layoutContainer
   },
   mounted() {
+    window.scrollTo(0, 0);
     this.$store.dispatch('loadFeed');
   }
 }

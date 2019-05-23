@@ -9,7 +9,7 @@ import './assets/style.sass';
 
 // FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPlus, faHome, faBullhorn, faCalendarAlt, faImages, faAngleLeft, faEllipsisV, faStar, faBars, faSignOutAlt, faEdit, faTrash, faSearch, faPhone, faAngleRight, faAngleDown, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faHome, faBullhorn, faCalendarAlt, faImages, faAngleLeft, faEllipsisV, faStar, faBars, faSignOutAlt, faEdit, faTrash, faSearch, faPhone, faAngleRight, faAngleDown, faSave, faTimes, faUserShield, faUserCog, faUsers, faCog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 // Firebase UI Style
@@ -24,12 +24,17 @@ import 'quill/dist/quill.bubble.css';
 // Vue carousel
 import VueCarousel from 'vue-carousel';
 
+// Vue Clazyload
+import VueClazyLoad from 'vue-clazy-load';
+
 // Line Clamp
 import lineClamp from 'vue-line-clamp';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+Vue.use(VueClazyLoad);
 
 // Odometer
 Vue.use(VueCarousel);
-library.add(faPlus, faHome, faAngleLeft, faAngleRight, faBullhorn, faCalendarAlt, faImages, faEllipsisV, faStar, faBars, faSignOutAlt, faEdit, faTrash, faSearch, faPhone, faAngleDown, faSave, faTimes);
+library.add(faPlus, faHome, faAngleLeft, faAngleRight, faBullhorn, faCalendarAlt, faImages, faEllipsisV, faStar, faBars, faSignOutAlt, faEdit, faTrash, faSearch, faPhone, faAngleDown, faSave, faTimes, faFacebook, faUserCog, faUsers, faCog);
 Vue.component('fa', FontAwesomeIcon);
 Vue.use(lineClamp);
 

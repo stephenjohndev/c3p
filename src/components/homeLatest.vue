@@ -13,10 +13,10 @@
       .homeLatest__items
         carousel(ref="carousel" v-model="currentSlide" :loop="true" :perPage="1" :perPageCustom="[[600, $store.state.feed.latest.length >=3 ? 3 : $store.state.feed.latest.length]]" :paginationEnabled="false")
           slide(v-for="latest, index in $store.state.feed.latest" :key="index")
-            .homeLatest__item
+            router-link.homeLatest__item(:to="'/feed/' + latest.id")
               .homeLatest__banner(:style="{backgroundImage: 'url(' + latest.cover + ')'}")
               h3.homeLatest__title {{ latest.title }}
-              p.homeLatest__content(v-line-clamp:24="2") {{ latest.body }}
+              p.homeLatest__content.unsetNodes(v-line-clamp:24="2" v-html="latest.body")
               a.homeLatest__readmore(href="#") Read more
     center: router-link(:to="{name: 'Feed'}").homeLatest__seeAll See all news
 </template>
@@ -69,6 +69,9 @@
 
 .homeLatest__item
   padding: 0.25rem $pad 1rem $pad
+  color: inherit
+  display: block
+  text-decoration: none
   @include actionable-primary
 
 .homeLatest__item + .homeLatest__item
@@ -86,13 +89,18 @@
   @include from($tablet-portrait)
     height: 10rem
 
+.homeLatest__title
+  font-weight: 500
+
+
 .homeLatest__content
   opacity: 0.5
+  margin: 0.5rem 0
 
 .homeLatest__readmore
   text-decoration: none
   color: $color-against-primary
-  font-weight: bold
+  font-weight: 500
   display: inline-block
 
 .homeLatest__seeAll
@@ -100,7 +108,7 @@
   text-align: center
   background-color: $color-primary
   color: $color-against-primary
-  font-weight: bold
+  font-weight: 500
   border-radius: 2rem
   display: inline-block
   text-decoration: none

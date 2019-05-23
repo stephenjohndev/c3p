@@ -5,7 +5,8 @@ export default {
   state: {
     highlights: [],
     latest: [],
-    feed: []
+    feed: [],
+    isPreloaderShown: true
   },
   mutations: {
     setHighlights (state, data) {
@@ -17,10 +18,15 @@ export default {
     setFeed (state, data) {
       state.feed = data;
     },
-    appendFeed (state, data) {
-
+    hidePreloader (state) {
+      state.isPreloaderShown = false;
     }
 
+  },
+  getters: {
+    mergedFeed (state) {
+      return state.highlights.concat(state.latest.concat(state.feed));
+    }
   },
   actions: {
     // Load
@@ -39,6 +45,7 @@ export default {
             return docObject;
           });
           commit('setHighlights', highlights);
+          commit('hidePreloader');
         });
     },
     loadLatest ({ commit }) {
@@ -61,7 +68,6 @@ export default {
     loadFeed ({ commit }) {
       db.collection('feed')
         .orderBy('timestamp', 'desc')
-        .limit(4)
         .onSnapshot(snapshot => {
           var feed = snapshot.docs.map(doc => {
             // Get document data object
@@ -175,6 +181,25 @@ export default {
         .catch(error => {
           console.log('error: ' + error);
         });
+    },
+    setHighlight ({ commit }, id) {
+      db.collection('feed')
+        .doc(id)
+        .update({
+          isHighlight: true
+        });
+    },
+    unsetHighlight ({ commit }, id) {
+      db.collection('feed')
+        .doc(id)
+        .update({
+          isHighlight: false
+        });
+    },
+    deletePost ({ commit }, id) {
+      db.collection('feed')
+        .doc(id)
+        .delete();
     }
 
   }

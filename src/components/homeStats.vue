@@ -55,10 +55,10 @@
 
 .stat__number
   font-size: 2rem
-  font-weight: bold
+  font-weight: 500
 
 .stat__desc
-  font-weight: bold
+  font-weight: 500
   opacity: 0.7
 </style>
 

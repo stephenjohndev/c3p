@@ -1,15 +1,14 @@
 <template lang="pug">
-  #admin-feed
+  #admin-gallery
 
-    section.feedControl
-      header.feedControl__header
-        button(@click="$router.push('/admin/feed/new')").--primary Add New
-      section.feedControl__feeds
-        router-link.feedCard(:to="'/admin/feed/' + post.id" v-for="post,index in $store.state.feed.feed" :key="index" :class="{'feedcard--isHighlight': post.isHighlight}")
-          h1.feedCard__header
-            div.feedCard__title {{ post.title }}
-            fa.feedCard__highlightStar(icon="star" @click="invertHighlight(post.id, post.isHighlight)")
-          p.feedCard__body.unsetNodes(v-line-clamp:24="2" v-html="post.body")
+    section.galleryControl
+      header.galleryControl__header
+        button(@click="$router.push('/admin/gallery/new')").--primary Add New
+      section.galleryControl__albums
+        router-link.galleryCard(:to="'/admin/gallery/' + post.id" v-for="post,index in $store.state.gallery.gallery" :key="index" :class="{'gallerycard--isHighlight': post.isHighlight}")
+          h1.galleryCard__header
+            div.galleryCard__title {{ post.title }}
+          p.galleryCard__body.unsetNodes(v-line-clamp:24="2" v-html="post.description")
 
     section.selectedPost(v-if="activePost")
       header.selectedPost__header(:class="{'selectedPost__header--editing':$store.getters.preventLeave}")
@@ -47,7 +46,7 @@
 <script>
 export default {
 	mounted() {
-		this.$store.dispatch("loadFeed");
+		this.$store.dispatch("loadGallery");
 	},
 	data() {
 		return {
@@ -85,7 +84,7 @@ export default {
 						cover: ""
 					};
 				} else {
-					return this.$store.state.feed.feed.find(
+					return this.$store.state.gallery.gallery.find(
 						post => post.id == this.$route.params.id
 					);
 				}
@@ -110,7 +109,7 @@ export default {
 				}
 			} else {
 				this.$store
-					.dispatch("addFeed", {
+					.dispatch("addgallery", {
 						title: this.title,
 						body: this.body,
 						cover: this.cover
@@ -118,7 +117,7 @@ export default {
 					.then(() => {
 						alert("Published!");
 						this.resetPost();
-						this.$router.replace("/admin/feed");
+						this.$router.replace("/admin/gallery");
 					})
 					.catch(error => {
 						alert("Error: " + error);
@@ -126,7 +125,7 @@ export default {
 			}
 		},
 		save() {
-			this.$store.dispatch("updateFeed", {
+			this.$store.dispatch("updategallery", {
 				id: this.activePost.id,
 				title: this.title,
 				body: this.body,
@@ -195,7 +194,7 @@ export default {
 <style lang="sass" scoped>
 @import ../../assets/style
 
-#admin-feed
+#admin-gallery
   width: 100%
   height: 100%
   display: flex
@@ -204,14 +203,14 @@ export default {
     grid-template-columns: 3fr 5fr
   align-items: stretch
 
-.feedControl
+.galleryControl
   @include from($tablet-landscape)
     border-right: 1px solid $color-layout-border
   padding: 1rem
   overflow-y: auto
   overflow-x: hidden
 
-.feedCard
+.galleryCard
   margin-top: 1rem
   background-color: $color-background-light
   box-shadow: $shadow
@@ -222,20 +221,20 @@ export default {
   border-left: 4px solid transparent
   padding-bottom: 1rem
 
-  &:hover .feedCard__highlightStar
+  &:hover .galleryCard__highlightStar
     color: #00000011
 
-.feedCard.feedcard--isHighlight
-  .feedCard__highlightStar
+.galleryCard.gallerycard--isHighlight
+  .galleryCard__highlightStar
     color: orange !important
 
-.feedCard.router-link-active
+.galleryCard.router-link-active
   border-left: 4px solid $color-primary
 
-  .feedCard__title
+  .galleryCard__title
     color: $color-primary
 
-.feedCard__header
+.galleryCard__header
   display: flex
   padding-top: 1rem
   padding-left: 1rem
@@ -243,7 +242,7 @@ export default {
   justify-content: space-between
   align-items: flex-start
 
-.feedCard__highlightStar
+.galleryCard__highlightStar
   color: #00000000
 
   &:hover
@@ -254,10 +253,10 @@ export default {
 
 
 
-.feedCard__title
+.galleryCard__title
   font-weight: normal
   margin-bottom: 0.25rem
-.feedCard__body
+.galleryCard__body
   padding-left: 1rem
   padding-right: 1rem
   opacity: 0.5
