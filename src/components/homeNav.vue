@@ -48,7 +48,7 @@
     
 
 header
-  background-color: $color-primary
+  background-color: $color-accent-dark
   border-bottom: 1px solid $color-layout-border-inverted
   @include from($tablet-landscape)
     height: 6rem

@@ -37,7 +37,7 @@
 
 #homeHighlight
   position: relative
-  background-color: $color-primary
+  background: $color-gradient
   @include to($phone)
     min-height: 30rem
   @include from($tablet-landscape)
@@ -67,10 +67,11 @@
 .homeHighlight__banner::after
   @include from($tablet-landscape)
     content: ''
-    background: linear-gradient(to right,transparentize($color-primary,0.8) 10%,transparent 40%)
+    background: linear-gradient(to right,transparentize($color-primary,0.5) 10%,transparent 40%)
     width: 100%
     height: 100%
     display: block
+    mix-blend-mode: multiply
 
 .homeHighlight__contents
   display: block

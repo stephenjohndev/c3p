@@ -26,5 +26,5 @@ $desktop: 1800px
     $from: $tablet-portrait
   @elseif $value == $desktop
     $from: $tablet-landscape
-  @media screen and (min-width: $value) and (max-width: $value)
+  @media screen and (min-width: $from) and (max-width: $value)
     @content

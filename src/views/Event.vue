@@ -59,12 +59,15 @@
 
 .feedPost__body
   padding: $pad*2 $pad
-  font-size: 1.2rem
-  line-height: 2.25rem
-  text-align: justify
+  line-height: 1.5rem
   max-width: 900px
   margin-left: auto
   margin-right: auto
+
+  @include from($tablet-landscape)
+    font-size: 1.2rem
+    text-align: justify
+    line-height: 2.25rem
 
 .feedPost__back
   margin-top: $pad
