@@ -9,7 +9,9 @@
       h1.feedPost__title {{ event.title }}
       h3.feedPost__subtitle {{ event.venue}}
       h3.feedPost__subtitle {{ event.start.toDate().toDateString()}}
-    a.feedPost__register(:href="event.registrationLink" target="_blank") Register
+    div
+      a.feedPost__register(:href="event.registrationLink" target="_blank" v-if="event.registrationAllowed") Register
+      a.feedPost__feedback(:href="event.registrationLink" target="_blank" v-if="event.feedbackAllowed") Feedback
   div.feedPost__cover(:style="{backgroundImage: 'url(' + event.cover + ')'}")
   p.feedPost__body(v-html="event.description")
 </template>
@@ -34,17 +36,27 @@
   margin-left: auto
   margin-right: auto
 
-.feedPost__register
+.feedPost__register,.feedPost__feedback
   text-align: center
-  background-color: $color-primary
   display: block
   padding: 0.5rem 3rem
-  color: $color-against-primary
+  
   text-decoration: none
   border-radius: 0.25rem
-  @include actionable-primary
+  
   @include to($tablet-portrait)
     margin-top: $pad
+
+.feedPost__register
+  background-color: $color-primary
+  color: $color-against-primary
+  @include actionable-primary
+
+.feedPost__feedback
+  margin-top: 0.5rem
+  background-color: transparent
+  color: $color-primary
+  border: 1px solid $color-primary
 
 .feedPost__cover
   width: 100%

@@ -27,8 +27,7 @@
 #homeLatest
   padding-top: $pad*2
   padding-bottom: $pad*2
-  border-bottom: 1px solid $color-layout-border
-  background-color: $color-accent-dark
+  background-color: $color-primary
   color: $color-against-primary
 
 .homeLatest__nav

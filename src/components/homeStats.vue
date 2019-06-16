@@ -1,5 +1,5 @@
 <template lang="pug">
-  #homeStats
+  #homeStats(style="border-top: 1px solid rgba(255,255,255,0.2)")
     layout-container
       h2.homeStats__title Empowering a Generation.
       span.homeStats__subtitle Networking Academy instructors are the heart of the program. More than 22,000 professors, teachers and counselors use our free curriculum to inspire and motivate students worldwide. Partner with us to meet the growing demand for networking, security and related digital skills in the workforce.

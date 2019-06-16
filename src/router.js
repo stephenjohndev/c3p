@@ -88,6 +88,10 @@ var router = new Router({
           component: AdminGallery
         },
         {
+          path: 'gallery/:id',
+          component: AdminGallery
+        },
+        {
           path: 'settings',
           name: 'admin-settings',
           component: PageNotFound

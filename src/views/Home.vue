@@ -5,7 +5,7 @@
     home-nav
     home-highlight
     home-latest
-    home-events
+    home-events(v-if="$store.state.events.upcomingEvents")
     home-stats
     home-about
     home-footer
