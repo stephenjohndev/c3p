@@ -38,35 +38,99 @@
           div.grid__img(style="display: flex; align-items: center; justify-content: center; cursor: pointer") + Add photos
           img.grid__img(:src="photo.url" v-for="photo in c_activePost.photos")
 
-    div(style="fixed; width: 100vw; height: 100vh; background-color: red")
+        div(style="position: fixed; top: 0; width: 100%; height: 100%; left: 0; display: flex; align-items: center; justify-content: center; background-color: #00000055")
+          div(style="background-color: white; width: 100%; max-width: 700px; border-radius: 0.25rem; padding: 1rem")
+            h3 Choose photo:
+            br
+            input(type="file" multiple @change="previewFile();")
+            br
+            #preview
+            br
+            center
+              button.--primary Upload (1) Photos
         
 
 </template>
 
 <script>
+
+import { db, firebaseui, storageRef } from '../../firebase';
+import { firestore } from 'firebase';
 export default {
 	mounted() {
 		this.$store.dispatch("loadGallery");
-  },
-  methods: {
-    deletePost(){
+	},
+	data() {
+		return {
+			files: null
+		};
+	},
+	methods: {
+		deletePost() {},
+		cancel() {},
+		save() {},
+		publish() {},
+		uploadFiles() {
+      for(file in Object.values(this.files))
+			var file = feed.cover;
+        var randomInt = Math.floor(Math.random() * 1000000);
+        var filename = randomInt + "_" + feed.cover.name;
+        var fileRef = storageRef.child("images/" + filename);
 
-    },
-    cancel(){
+        fileRef.put(file).then(function(snapshot) {
+          fileRef.getDownloadURL().then(fileURL => {
+            dispatch("addPost", {
+              title: feed.title,
+              body: feed.body,
+              cover: fileURL
+            })
+              .then(() => {
+                resolve();
+              })
+              .catch(error => {
+                reject(error);
+              });
+          });
+        });
+		},
+		previewFile() {
+			var preview = document.querySelector("#preview");
+			var files = document.querySelector("input[type=file]").files;
 
-    },
-    save(){
+			function readAndPreview(file) {
+				// Make sure `file.name` matches our extensions criteria
+				if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+					var reader = new FileReader();
 
-    },
-    publish(){
+					reader.addEventListener(
+						"load",
+						function() {
+							var image = new Image();
+							image.height = 100;
+							image.title = file.name;
+							image.src = this.result;
+							preview.appendChild(image);
+						},
+						false
+					);
 
-    },
-  },
-  computed: {
-    c_activePost(){
-      return this.$store.state.gallery.gallery.find(album => album.id == this.$route.params.id)
-    }
-  }
+					reader.readAsDataURL(file);
+				}
+			}
+
+			if (files) {
+				[].forEach.call(files, readAndPreview);
+				this.files = files;
+			}
+		}
+	},
+	computed: {
+		c_activePost() {
+			return this.$store.state.gallery.gallery.find(
+				album => album.id == this.$route.params.id
+			);
+		}
+	}
 };
 </script>
 
