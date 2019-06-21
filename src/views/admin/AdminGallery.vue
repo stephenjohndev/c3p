@@ -47,22 +47,21 @@
             #preview
             br
             center
-              button.--primary Upload (1) Photos
+              button(@click="uploadFiles()").--primary Upload ({{Object.values(files).length}}) Photos
         
 
 </template>
 
 <script>
-
-import { db, firebaseui, storageRef } from '../../firebase';
-import { firestore } from 'firebase';
+import { db, firebaseui, storageRef } from "../../firebase";
+import { firestore } from "firebase";
 export default {
 	mounted() {
 		this.$store.dispatch("loadGallery");
 	},
 	data() {
 		return {
-			files: null
+			files: {}
 		};
 	},
 	methods: {
@@ -71,30 +70,33 @@ export default {
 		save() {},
 		publish() {},
 		uploadFiles() {
-      for(file in Object.values(this.files))
-			var file = feed.cover;
-        var randomInt = Math.floor(Math.random() * 1000000);
-        var filename = randomInt + "_" + feed.cover.name;
-        var fileRef = storageRef.child("images/" + filename);
+			window.alert(this.c_activePost.id);
+			window.alert(this.files[0]);
+			Object.values(this.files).forEach(file => {
+				var randomInt = Math.floor(Math.random() * 1000000);
+				var filename = randomInt + "_" + file.name;
+				var fileRef = storageRef.child("images/" + filename);
 
-        fileRef.put(file).then(function(snapshot) {
-          fileRef.getDownloadURL().then(fileURL => {
-            dispatch("addPost", {
-              title: feed.title,
-              body: feed.body,
-              cover: fileURL
-            })
-              .then(() => {
-                resolve();
-              })
-              .catch(error => {
-                reject(error);
-              });
-          });
-        });
+				fileRef.put(file).then(snapshow => {
+					fileRef.getDownloadURL().then(fileURL => {
+						this.$store
+							.dispatch("pushToAlbum", {
+								id: this.c_activePost.id,
+								url: fileURL
+							})
+							.then(() => {
+                window.alert('success')
+							})
+							.catch(error => {
+                window.alert('error')
+							});
+					});
+				});
+			});
 		},
 		previewFile() {
 			var preview = document.querySelector("#preview");
+			preview.innerHTML = "";
 			var files = document.querySelector("input[type=file]").files;
 
 			function readAndPreview(file) {

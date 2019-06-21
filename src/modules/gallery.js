@@ -68,6 +68,16 @@ export default {
           });
           return photos;
         });
+    },
+    pushToAlbum ({ commit }, payload) {
+      var albumId = payload.id;
+      var photoUrl = payload.url;
+      db.collection('gallery')
+        .doc(albumId)
+        .collection('photos')
+        .add({
+          url: photoUrl
+        });
     }
   }
 };
