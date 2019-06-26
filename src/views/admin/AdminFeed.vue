@@ -65,8 +65,6 @@ export default {
 			}
 		};
 	},
-<<<<<<< HEAD
-=======
 	watch: {
 		activePost() {
 			if (typeof this.activePost != "undefined") {
@@ -83,7 +81,6 @@ export default {
       }
     }
 	},
->>>>>>> 4effecf2115bbf8d4c489550eff05ed83cd1a850
 	computed: {
     isDifferent(){
       
