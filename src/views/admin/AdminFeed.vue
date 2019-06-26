@@ -1,6 +1,5 @@
 <template lang="pug">
   #admin-feed
-
     section.feedControl
       header.feedControl__header
         button(@click="$router.push('/admin/feed/new')").--primary Add New
@@ -34,13 +33,13 @@
         div.selectedPost__cover(:class="{'selectedPost__cover--hidden': editorFocused}" :style="{backgroundImage: 'url(' + cover + ')'}")
       input(type="file" accept="image/*" id="upload" @change="previewFile(); $store.commit('setPreventLeave', true);" style="display: none")
       div(style="flex-grow: 1; display: flex; flex-direction: column")
-        input.selectedPost__titleInput(ref="titleInput" @input="setPending" type="text" v-model="title" placeholder="Title")
+        input.selectedPost__titleInput(ref="titleInput" type="text" v-model="title" placeholder="Title")
         quill-editor(:key="$route.params.id" v-model="body"
                 ref="myQuillEditor"
                 :options="editorOption"
                 @blur="editorFocused=false"
                 @focus="editorFocused=true"
-                @change="setPending")
+                )
 
 </template>
 
@@ -54,7 +53,6 @@ export default {
 			cover: "",
 			title: "",
 			body: "",
-			readyForChange: true,
 			editorFocused: false,
 
 			editorOption: {
@@ -73,9 +71,22 @@ export default {
 				this.resetPost();
 				this.editorFocused = false;
 			}
-		}
+    },
+    isDifferent(value){
+      if (value) {
+				this.$store.commit("setPreventLeave", true);
+      }
+      else {
+        this.$store.commit("setPreventLeave", false);
+      }
+    }
 	},
 	computed: {
+    isDifferent(){
+      
+      var isDifferent = this.title + this.body + this.cover != this.activePost.title + this.activePost.body + this.activePost.cover
+      return isDifferent
+    },
 		activePost() {
 			if (typeof this.$route.params.id != "undefined") {
 				if (this.$route.params.id == "new") {
@@ -138,12 +149,6 @@ export default {
         this.resetPost();
       }
     },
-		setPending() {
-			if (this.readyForChange) {
-				this.$store.commit("setPreventLeave", true);
-			}
-			this.readyForChange = true;
-		},
 		deletePost() {
 			if (confirm("Are you sure to delete? This action cannot be undone.")) {
 				this.$store.dispatch('deletePost',this.activePost.id)
@@ -151,7 +156,6 @@ export default {
 		},
 		resetPost() {
 			if (this.$store.getters.preventLeave) {
-        this.readyForChange = false;
 				this.$store.commit("setPreventLeave", false);
 			}
 
