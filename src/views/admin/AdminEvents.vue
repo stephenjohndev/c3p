@@ -136,7 +136,9 @@ export default {
 			return undefined;
     },
     isDifferent() {
-      return this.title + this.description + this.cover + this.venue + this.registrationLink + this.feedbackLink + this.registrationAllowed + this.feedbackAllowed != this.activePost.title + this.activePost.description + this.activePost.cover + this.activePost.venue + this.activePost.registrationLink + this.activePost.feedbackLink + this.activePost.registrationAllowed + this.activePost.feedbackAllowed
+      if(this.title)
+        return this.title + this.description + this.cover + this.venue + this.registrationLink + this.feedbackLink + this.registrationAllowed + this.feedbackAllowed != this.activePost.title + this.activePost.description + this.activePost.cover + this.activePost.venue + this.activePost.registrationLink + this.activePost.feedbackLink + this.activePost.registrationAllowed + this.activePost.feedbackAllowed
+      return false
     }
 	},
 	methods: {

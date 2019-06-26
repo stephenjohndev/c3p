@@ -12,7 +12,6 @@
 
     section.selectedPost(v-if="activePost")
       header.selectedPost__header(:class="{'selectedPost__header--editing':$store.getters.preventLeave}")
-        div.action_group {{ isDifferent }}
         div.action_group
           .selectedPost__action.selectedPost__back(@click="$router.back()")
             fa(icon="angle-left")
@@ -66,29 +65,7 @@ export default {
 			}
 		};
 	},
-	watch: {
-		activePost() {
-			if (typeof this.activePost != "undefined") {
-				this.resetPost();
-				this.editorFocused = false;
-			}
-    },
-    isDifferent(){
-      window.alert('Value changed to: ' + this.isDifferent)
-      if (this.isDifferent) {
-				this.$store.commit("setPreventLeave", true);
-      }
-      else {
-        this.$store.commit("setPreventLeave", false);
-      }
-    }
-	},
 	computed: {
-    isDifferent(){
-      
-      var isDifferent = this.title + this.body + this.cover != this.activePost.title + this.activePost.body + this.activePost.cover
-      return isDifferent
-    },
 		activePost() {
 			if (typeof this.$route.params.id != "undefined") {
 				if (this.$route.params.id == "new") {
@@ -104,7 +81,28 @@ export default {
 				}
 			}
 			return undefined;
-		}
+    },
+    isDifferent(){
+      if(this.title)
+        return this.title + this.body + this.cover != this.activePost.title + this.activePost.body + this.activePost.cover
+      return false
+    }
+  },
+  watch: {
+		activePost() {
+			if (typeof this.activePost != "undefined") {
+				this.resetPost();
+				this.editorFocused = false;
+			}
+    },
+    isDifferent(value){
+      if(value){
+        this.$store.commit('setPreventLeave', true)
+      }
+      else{
+        this.$store.commit('setPreventLeave', false)
+      }
+    }
 	},
 	methods: {
 		async publish() {
