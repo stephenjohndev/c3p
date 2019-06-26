@@ -65,7 +65,31 @@ export default {
 			}
 		};
 	},
+<<<<<<< HEAD
+=======
+	watch: {
+		activePost() {
+			if (typeof this.activePost != "undefined") {
+				this.resetPost();
+				this.editorFocused = false;
+			}
+    },
+    isDifferent(value){
+      if (value) {
+				this.$store.commit("setPreventLeave", true);
+      }
+      else {
+        this.$store.commit("setPreventLeave", false);
+      }
+    }
+	},
+>>>>>>> 4effecf2115bbf8d4c489550eff05ed83cd1a850
 	computed: {
+    isDifferent(){
+      
+      var isDifferent = this.title + this.body + this.cover != this.activePost.title + this.activePost.body + this.activePost.cover
+      return isDifferent
+    },
 		activePost() {
 			if (typeof this.$route.params.id != "undefined") {
 				if (this.$route.params.id == "new") {
