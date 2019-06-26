@@ -12,7 +12,7 @@
     section.selectedPost(v-if="activePost")
       header.selectedPost__header(:class="{'selectedPost__header--editing':$store.getters.preventLeave}")
         div.action_group
-          .selectedPost__action.selectedPost__back(@click="$router.back()")
+          .selectedPost__action.selectedPost__back(@click="$router.replace('./')")
             fa(icon="angle-left")
         div.action_group
           .selectedPost__action(v-show="!$store.getters.preventLeave && $route.params.id != 'new'" @click="deletePost")
@@ -36,20 +36,19 @@
           input(type="file" id="cover" @change="previewFile(); $store.commit('setPreventLeave', true);")
         .selectedPost__info
           label Title:
-          input.selectedPost__title.field(type="text" v-model="title" placeholder="Name of event" @input="setPending")
+          input.selectedPost__title.field(type="text" v-model="title" placeholder="Name of event")
           label Venue:
-          input.selectedPost__venue.field(type="text" v-model="venue" placeholder="Location" @input="setPending")
+          input.selectedPost__venue.field(type="text" v-model="venue" placeholder="Location")
           label Start date:
-          input.selectedPost__start.field(type="datetime-local" v-model="start" @input="setPending")
+          input.selectedPost__start.field(type="datetime-local" v-model="start" @change="$store.commit('setPreventLeave', true)")
           label End date:
-          input.selectedPost__end.field(type="datetime-local" v-model="end" @input="setPending")
+          input.selectedPost__end.field(type="datetime-local" v-model="end" @change="$store.commit('setPreventLeave', true)")
       div.selectedPost__page(v-if="activeTab == 1")
         quill-editor(:key="$route.params.id" v-model="description"
                   ref="myQuillEditor"
                   :options="editorOption"
                   @blur="editorFocused=false"
                   @focus="editorFocused=true"
-                  @input="setPending"
                   )
       div.selectedPost__page(v-if="activeTab == 2")
         .selectedPost__info
@@ -84,7 +83,6 @@ export default {
 			feedbackLink: "",
 			registrationAllowed: false,
 			feedbackAllowed: false,
-			readyForChange: true,
 
 			editorOption: {
 				modules: {
@@ -103,7 +101,15 @@ export default {
 				this.resetPost();
 				this.editorFocused = false;
 			}
-		}
+    },
+    isDifferent(value){
+      if (value) {
+				this.$store.commit("setPreventLeave", true);
+      }
+      else {
+        this.$store.commit("setPreventLeave", false);
+      }
+    }
 	},
 	computed: {
 		activePost() {
@@ -128,7 +134,10 @@ export default {
 				}
 			}
 			return undefined;
-		}
+    },
+    isDifferent() {
+      return this.title + this.description + this.cover + this.venue + this.registrationLink + this.feedbackLink + this.registrationAllowed + this.feedbackAllowed != this.activePost.title + this.activePost.description + this.activePost.cover + this.activePost.venue + this.activePost.registrationLink + this.activePost.feedbackLink + this.activePost.registrationAllowed + this.activePost.feedbackAllowed
+    }
 	},
 	methods: {
 		async publish() {
@@ -186,12 +195,6 @@ export default {
 				registrationAllowed: this.registrationAllowed,
 				feedbackAllowed: this.feedbackAllowed
 			});
-		},
-		setPending() {
-			if (this.readyForChange)
-				// true{
-				this.$store.commit("setPreventLeave", true);
-			this.readyForChange = true;
 		},
 		cancel() {
 			if (confirm("Discard changes?")) {

@@ -35,14 +35,17 @@
         input.field(type="text" :value="c_activePost.description" style="display: block")
         br
         .grid
-          div.grid__img(style="display: flex; align-items: center; justify-content: center; cursor: pointer") + Add photos
+          div.grid__img(style="display: flex; align-items: center; justify-content: center; cursor: pointer" @click="uploadModalShown = true") + Add photos
           img.grid__img(:src="photo.url" v-for="photo in c_activePost.photos")
 
-        div(style="position: fixed; top: 0; width: 100%; height: 100%; left: 0; display: flex; align-items: center; justify-content: center; background-color: #00000055")
+        div( v-if="uploadModalShown" style="position: fixed; top: 0; width: 100%; height: 100%; left: 0; display: flex; align-items: center; justify-content: center; background-color: #00000055")
           div(style="background-color: white; width: 100%; max-width: 700px; border-radius: 0.25rem; padding: 1rem")
-            h3 Choose photo:
+            div(style="display: flex; justify-content: space-between; align-items: center")
+              h3 Choose photo
+              button(@click="uploadModalShown = false" style="background-color: #ee3344; color: white") Close
             br
             input(type="file" multiple @change="previewFile();")
+            br
             br
             #preview
             br
@@ -61,7 +64,8 @@ export default {
 	},
 	data() {
 		return {
-			files: {}
+			files: {},
+      uploadModalShown: false
 		};
 	},
 	methods: {
@@ -96,7 +100,7 @@ export default {
 		},
 		previewFile() {
 			var preview = document.querySelector("#preview");
-			preview.innerHTML = "";
+      preview.innerHTML = "";
 			var files = document.querySelector("input[type=file]").files;
 
 			function readAndPreview(file) {
@@ -110,8 +114,10 @@ export default {
 							var image = new Image();
 							image.height = 100;
 							image.title = file.name;
-							image.src = this.result;
-							preview.appendChild(image);
+              image.src = this.result;
+              image.style.margin = '2px';
+              preview.appendChild(image);
+              width = 100;
 						},
 						false
 					);
