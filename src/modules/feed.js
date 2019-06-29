@@ -1,5 +1,6 @@
 import { db, firebaseui, storageRef } from '../firebase';
 import { firestore } from 'firebase';
+import { Toast } from 'buefy/dist/components/toast';
 
 export default {
   state: {
@@ -66,9 +67,11 @@ export default {
         });
     },
     loadFeed ({ commit }) {
+      commit('setIsSlightLoaderShown', true);
       db.collection('feed')
         .orderBy('timestamp', 'desc')
         .onSnapshot(snapshot => {
+          commit('setIsSlightLoaderShown', false);
           var feed = snapshot.docs.map(doc => {
             // Get document data object
             var docObject = doc.data();
@@ -91,7 +94,7 @@ export default {
           var randomInt = (Math.floor(Math.random() * 1000000));
           var filename = randomInt + '_' + feed.cover.name;
           var fileRef = storageRef.child('images/' + filename);
-
+          commit('setIsSlightLoaderShown', true);
           fileRef.put(file).then(function (snapshot) {
             fileRef.getDownloadURL().then(
               fileURL => {
@@ -102,10 +105,14 @@ export default {
                 }).then(() => {
                   resolve();
                 }).catch(error => {
+                  commit('setIsSlightLoaderShown', false);
                   reject(error);
                 });
               }
-            );
+            ).catch(error => {
+              commit('setIsSlightLoaderShown', false);
+              window.alert(error);
+            });
           });
         } else {
           dispatch('addPost', {
@@ -130,8 +137,12 @@ export default {
           })
           .then(() => {
             resolve();
+            commit('setIsSlightLoaderShown', false);
+
+            Toast.open('Published');
           })
           .catch(error => {
+            commit('setIsSlightLoaderShown', false);
             window.alert(error);
             reject(error);
           });
@@ -141,6 +152,7 @@ export default {
     // Update
     updateFeed ({ commit, dispatch }, feed) {
       if (typeof feed.cover === 'object') {
+        commit('setIsSlightLoaderShown', true);
         var file = feed.cover;
         var randomInt = (Math.floor(Math.random() * 1000000));
         var filename = randomInt + '_' + feed.cover.name;
@@ -156,7 +168,10 @@ export default {
                 cover: fileURL
               });
             }
-          );
+          ).catch(error => {
+            commit('setIsSlightLoaderShown', false);
+            window.alert(error);
+          });
         });
       } else {
         dispatch('updatePost', {
@@ -177,8 +192,11 @@ export default {
         })
         .then(() => {
           console.log('success');
+          Toast.open('Updated');
+          commit('setIsSlightLoaderShown', false);
         })
         .catch(error => {
+          commit('setIsSlightLoaderShown', false);
           console.log('error: ' + error);
         });
     },
@@ -199,7 +217,10 @@ export default {
     deletePost ({ commit }, id) {
       db.collection('feed')
         .doc(id)
-        .delete();
+        .delete()
+        .then(() => {
+          Toast.open('Deleted');
+        });
     }
 
   }

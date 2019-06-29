@@ -1,5 +1,6 @@
 <template lang="pug">
 #admin
+  b-loading(:is-full-page="true" :active.sync="$store.state.isSlightLoaderShown" :can-cancel="true")
   div.adminDrawer__sidebarCover(v-if="sidebarShown" @click="sidebarShown = false")
   transition(name="drawer")
     aside.adminDrawer__sidebar(v-if="sidebarShown")
@@ -78,7 +79,6 @@ export default {
   overflow-x: hidden
   max-height: 100vh
   overflow-y: hidden
-  
 
 .adminDrawer
   @include to($tablet-portrait)

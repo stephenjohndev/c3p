@@ -17,7 +17,8 @@ export default new Vuex.Store({
     gallery
   },
   state: {
-    preventLeave: false
+    preventLeave: false,
+    isSlightLoaderShown: false
   },
   getters: {
     preventLeave (state) {
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setIsSlightLoaderShown (state, value) {
+      state.isSlightLoaderShown = value;
+    },
     setPreventLeave (state, value) {
       if (value) {
         window.onbeforeunload = function () {

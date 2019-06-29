@@ -148,7 +148,6 @@ export default {
 						cover: this.cover
 					})
 					.then(() => {
-						alert("Published!");
 						this.resetPost();
 						this.$router.replace("/admin/feed");
 					})

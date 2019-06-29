@@ -1,5 +1,6 @@
 import { db, firebaseui, storageRef } from '../firebase';
 import { firestore } from 'firebase';
+import { Toast } from 'buefy/dist/components/toast';
 
 export default {
   state: {
@@ -43,6 +44,7 @@ export default {
     prepareAddEvent ({ commit, dispatch }, event) {
       return new Promise((resolve, reject) => {
         if (typeof event.cover === 'object') {
+          commit('setIsSlightLoaderShown', true);
           var file = event.cover;
           var randomInt = (Math.floor(Math.random() * 1000000));
           var filename = randomInt + '_' + event.cover.name;
@@ -66,10 +68,15 @@ export default {
                 }).then(() => {
                   resolve();
                 }).catch(error => {
+                  commit('setIsSlightLoaderShown', false);
                   reject(error);
                 });
               }
-            );
+            )
+              .catch(error => {
+                commit('setIsSlightLoaderShown', false);
+                window.alert(error);
+              });
           });
         } else {
           dispatch('addEvent', {
@@ -117,9 +124,12 @@ export default {
             feedbackAllowed: event.feedbackAllowed
           })
           .then(() => {
+            commit('setIsSlightLoaderShown', false);
+            Toast.open('Published');
             resolve();
           })
           .catch(error => {
+            commit('setIsSlightLoaderShown', false);
             window.alert(error);
             reject(error);
           });
@@ -127,6 +137,7 @@ export default {
     },
     prepareUpdateEvent ({ commit, dispatch }, event) {
       if (typeof event.cover === 'object') {
+        commit('setIsSlightLoaderShown', true);
         var file = event.cover;
         var randomInt = (Math.floor(Math.random() * 1000000));
         var filename = randomInt + '_' + event.cover.name;
@@ -150,7 +161,10 @@ export default {
 
               });
             }
-          );
+          ).catch(error => {
+            commit('setIsSlightLoaderShown', false);
+            window.alert(error);
+          });
         });
       } else {
         dispatch('updateEvent', {
@@ -184,21 +198,28 @@ export default {
           feedbackAllowed: event.feedbackAllowed
         })
         .then(() => {
-          console.log('success');
+          commit('setIsSlightLoaderShown', false);
+          Toast.open('Updated');
         })
         .catch(error => {
-          console.log('error: ' + error);
+          commit('setIsSlightLoaderShown', false);
+          window.alert('error: ' + error);
         });
     },
     deleteEvent ({ commit }, id) {
       db.collection('events')
         .doc(id)
-        .delete();
+        .delete()
+        .then(() => {
+          Toast.open('Deleted');
+        });
     },
     loadEvents ({ commit }) {
+      commit('setIsSlightLoaderShown', true);
       db.collection('events')
         .orderBy('start', 'desc')
         .onSnapshot(snapshot => {
+          commit('setIsSlightLoaderShown', false);
           var events = snapshot.docs.map(doc => {
             // Get document data object
             var docObject = doc.data();

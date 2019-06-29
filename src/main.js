@@ -30,6 +30,8 @@ import VueClazyLoad from 'vue-clazy-load';
 // Line Clamp
 import lineClamp from 'vue-line-clamp';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import Buefy from 'buefy';
+import 'buefy/dist/buefy.css';
 Vue.use(VueClazyLoad);
 
 // Odometer
@@ -40,6 +42,7 @@ Vue.use(lineClamp);
 
 Vue.use(VueQuillEditor /* { default global options } */);
 
+Vue.use(Buefy);
 Vue.config.productionTip = false;
 
 new Vue({
