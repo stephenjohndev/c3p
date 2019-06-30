@@ -7,7 +7,7 @@
   h1.album__title {{ album.title }}
   layoutContainer
     .photos
-      .photo(v-for="photo in photos" :style="{backgroundImage: 'url(' + photo.url + ')' }")
+      .photo(v-for="photo in photos" :style="{ backgroundImage: `url('${photo.url}')` }")
 </template>
 
 <style lang="sass" scoped>

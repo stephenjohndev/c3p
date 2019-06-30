@@ -42,7 +42,8 @@
 
 .homeEvents__label
   color: $color-primary
-  
+  font-size: 1.5rem
+  font-weight: lighter
 
 .homeEvents__controls
   display: flex
@@ -126,12 +127,12 @@
 .homeEvents__seeAll
   padding: 0.5rem 1.5rem
   text-align: center
-  background-color: $color-primary
+  background-color: $color-green-accent
   text-decoration: none
   color: $color-against-primary
   font-weight: 500
   border-radius: 2rem
-  @include actionable-primary
+  @include actionable-green
       
 </style>
 

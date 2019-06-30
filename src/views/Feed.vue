@@ -6,16 +6,18 @@
           router-link.feedNav__action(:to="{name: 'Home'}")
             fa(icon="home")
             span &nbsp; Home
-          h1 Feed
-          .feedNav__action.feedNav__action--small
+          h1.title.is-4(style="color: white; font-weight: lighter; margin-bottom: 0")
+            b C3P
+            i &nbsp;News
+          .feedNav__action.feedNav__action--small(style="margin-left: 3rem")
             fa(icon="ellipsis-v")
     
     div.feeds
       layout-container
-        router-link.feed(v-for="post, index in $store.state.feed.feed" :to="'/feed/' + post.id" :key="post.id")
+        router-link.feed(v-for="post, index in $store.state.feed.feed" :to="'/news/' + post.id" :key="post.id")
           div.feed__banner(:style="{backgroundImage: 'url(' + post.cover + ')'}")
           div.feed__contents
-            h2.feed__title {{ post.title }}
+            h3.title.is-3.feed__title {{ post.title }}
             p.feed__content.unsetNodes(v-line-clamp:72="6" v-html="post.body")
 
 </template>
@@ -26,6 +28,10 @@
 .feedHeader
   background-color: $color-primary
   color: $color-against-primary
+
+.feed__title
+  font-weight: lighter
+  margin-bottom: 1.5rem
 
 .feedNav
   display: flex

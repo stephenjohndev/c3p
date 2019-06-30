@@ -2,9 +2,9 @@
   #admin-feed
     section.feedControl
       header.feedControl__header
-        button(@click="$router.push('/admin/feed/new')").--primary Add New
+        button(@click="$router.push('/admin/news/new')").--primary New Post
       section.feedControl__feeds
-        router-link.feedCard(:to="'/admin/feed/' + post.id" v-for="post,index in $store.state.feed.feed" :key="index" :class="{'feedcard--isHighlight': post.isHighlight}")
+        router-link.feedCard(:to="'/admin/news/' + post.id" v-for="post,index in $store.state.feed.feed" :key="index" :class="{'feedcard--isHighlight': post.isHighlight}")
           h1.feedCard__header
             div.feedCard__title {{ post.title }}
             fa.feedCard__highlightStar(icon="star" @click="invertHighlight(post.id, post.isHighlight)")
@@ -149,7 +149,7 @@ export default {
 					})
 					.then(() => {
 						this.resetPost();
-						this.$router.replace("/admin/feed");
+						this.$router.replace("/admin/news");
 					})
 					.catch(error => {
 						alert("Error: " + error);

@@ -7,6 +7,8 @@ import * as firebase from 'firebase/app';
 import feed from './modules/feed';
 import events from './modules/events';
 import gallery from './modules/gallery';
+import auth from './modules/auth';
+import users from './modules/users';
 
 Vue.use(Vuex);
 
@@ -14,7 +16,9 @@ export default new Vuex.Store({
   modules: {
     feed,
     events,
-    gallery
+    gallery,
+    auth,
+    users
   },
   state: {
     preventLeave: false,

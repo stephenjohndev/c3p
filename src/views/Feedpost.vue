@@ -4,7 +4,11 @@
     button.feedPost__back(@click="$router.back('/')")
       fa(icon="angle-left")
       span &nbsp; Back to Home
-  h1.feedPost__title {{ currentPost.title }}
+    router-link.title.is-4(to="/news" style="margin: 0; padding: 0; font-weight: lighter; font-size: 1.5rem; text-transform: uppercase")
+      span C3P
+      i(style="color: #049FD9") &nbsp;News
+    span(style="display: inline-block; width: 8rem")
+  h1.title.is-1.feedPost__title {{ currentPost.title }}
   div.feedPost__cover(:style="{backgroundImage: 'url(' + currentPost.cover + ')'}")
   p.feedPost__body(v-html="currentPost.body")
 </template>
@@ -12,18 +16,33 @@
 <style lang="sass" scoped>
 @import '../assets/style'
 
+#feedPost
+  border-top: 5px solid $color-primary
+  background-color: $color-background-light
+
 .feedPost__header
   max-width: 900px
-  padding: 0 $pad
   margin-left: auto
+  padding: $pad 0
   margin-right: auto
+  display: flex
+  align-items: center
+  justify-content: space-between
+  width: 100%
+  border-bottom: 1px solid #dddddd
+  
+  
+  width: 100%
 .feedPost__title
   padding: $pad*2 $pad
   max-width: 900px
   margin-left: auto
   margin-right: auto
+  font-weight: lighter
 .feedPost__cover
   width: 100%
+  max-width: 900px
+  margin: auto
   height: 20rem
   background-size: cover
   background-position: center
@@ -41,9 +60,7 @@
     line-height: 2.25rem
 
 .feedPost__back
-  margin-top: $pad
   background-color: transparent
-  border: 1px solid $color-layout-border
 </style>
 
 

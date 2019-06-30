@@ -13,8 +13,8 @@
     transition(name="longer-fade" mode="out-in")
       .homeHighlight__contents(:key="currentHighlight.id" v-if="!$store.state.feed.isPreloaderShown")
         layoutContainer
-          .homeHighlight__label(v-if="$store.state.feed.highlights.length > 1") Highlights
-          router-link.homeHighlight__contentLink(:to="'/feed/' + currentHighlight.id")
+          //- .homeHighlight__label(v-if="$store.state.feed.highlights.length > 1") Highlights
+          router-link.homeHighlight__contentLink(:to="'/news/' + currentHighlight.id")
             transition(name="rise-up" mode="out-in" appear)
               h2.homeHighlight__title(:key="currentHighlight.id" style="transition-delay: 0s") {{ currentHighlight.title }}
             transition(name="rise-up" mode="out-in" appear)
@@ -23,7 +23,7 @@
 
 
         layoutContainer(extendleft)
-          router-link.homeHighlight__readMore(:to="'/feed/' + currentHighlight.id") Read more
+          router-link.homeHighlight__readMore(:to="'/news/' + currentHighlight.id") Read more
         layoutContainer(extendleft)
           .homeHighlight__navigators(v-if="$store.state.feed.highlights.length > 1")
             .homeHighlight__navigator(@click="$refs.carousel.goToPage($refs.carousel.getPreviousPage())")
@@ -37,22 +37,22 @@
 
 #homeHighlight
   position: relative
-  background: $color-gradient
+  background: $color-primary
   @include to($phone)
     min-height: 30rem
   @include from($tablet-landscape)
-    height: calc(100vh - 6rem)
-    max-height: calc(768px - 6rem)
+    height: calc(100vh - 8em)
+    max-height: calc(768px - 8rem)
 
 
 .homeHighlight__bannerContainer
   height: 60vw
   @include from($tablet-landscape)
-    width: 70%
+    width: 100%
     margin-left: auto
   @include from($tablet-landscape)
-    height: calc(100vh - 6rem)
-    max-height: calc(768px - 6rem)
+    height: calc(100vh - 8rem)
+    max-height: calc(768px - 8rem)
 
 .homeHighlight__banner
   position: relative
@@ -67,11 +67,11 @@
 .homeHighlight__banner::after
   @include from($tablet-landscape)
     content: ''
-    background: linear-gradient(to right,transparentize($color-primary,0.5) 10%,transparent 40%)
+    background: linear-gradient(to right,transparentize($color-primary,0.35) 50%,transparent 100%)
     width: 100%
     height: 100%
     display: block
-    mix-blend-mode: multiply
+    // mix-blend-mode: multiply
 
 .homeHighlight__contents
   display: block
@@ -102,15 +102,22 @@
 
 .homeHighlight__title
   color: $color-against-primary
+  font-size: 2rem
   line-height: 2rem
   margin-top: 0.5rem
   margin-bottom: 0.5rem
+  font-weight: lighter
   @include from($tablet-landscape)
-    width: 70%
-    max-width: 38rem
+    width: calc(100% - 4rem)
     pointer-events: initial
-    font-size: 3rem
+    font-size: 3.5rem
     line-height: 3.5rem
+    margin-top: 1rem
+    margin-bottom: 1rem
+  @include from($desktop)
+    max-width: 60vw
+    font-size: 5rem
+    line-height: 5rem
 
 .homeHighlight__content
   word-break: initial !important
@@ -124,15 +131,16 @@
 
 .homeHighlight__readMore
   color: $color-against-primary
+  background-color: $color-green-accent
   padding: 0.5rem 1rem
-  margin-left: 0.5rem
+  margin-left: 1rem
+  margin-top: 1rem
   cursor: pointer
   pointer-events: initial
   border-radius: 4rem
-  font-weight: 500
   text-decoration: none
-  margin-top: 0.5rem
   display: inline-block
+  @include actionable-green
 
 .homeHighlight__navigators
   pointer-events: initial

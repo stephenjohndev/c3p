@@ -1,56 +1,71 @@
 <template lang="pug">
-#admin
-  b-loading(:is-full-page="true" :active.sync="$store.state.isSlightLoaderShown" :can-cancel="true")
-  div.adminDrawer__sidebarCover(v-if="sidebarShown" @click="sidebarShown = false")
-  transition(name="drawer")
-    aside.adminDrawer__sidebar(v-if="sidebarShown")
-      header.adminDrawer__header
+#adminWrapper
+  div(v-show="!$store.state.auth.user" style="background-color: #eeeeee; height: 100vh;")
+    #firebaseui-auth-container(style="position: absolute; top: 30%; left: 50%; transform: translate(-50%,-50%)")
+  #admin(v-if="$store.state.auth.user && $store.state.auth.isAuthorized")
+    b-loading(:is-full-page="true" :active.sync="$store.state.isSlightLoaderShown" :can-cancel="true")
+    div.adminDrawer__sidebarCover(v-if="sidebarShown" @click="sidebarShown = false")
+    transition(name="drawer")
+      aside.adminDrawer__sidebar(v-if="sidebarShown")
+        nav.adminDrawer__nav
+          ul(@click="sidebarShown = false")
+            li: router-link.adminDrawer__link(to="/" style="border-left-color: transparent; margin-top: 1rem; margin-bottom: 1rem;")
+              fa.adminDrawer__link__icon(icon="home")
+              span(style="color: #049FD9") Back to Home
+            li: router-link.adminDrawer__link(:to="{name: 'admin-feed'}")
+              fa.adminDrawer__link__icon(icon="bullhorn" fixed-width)
+              span News
+            li: router-link.adminDrawer__link(:to="{name: 'admin-events'}")
+              fa.adminDrawer__link__icon(icon="calendar-alt" fixed-width)
+              span Events
+            li: router-link.adminDrawer__link(:to="{name: 'admin-gallery'}")
+              fa.adminDrawer__link__icon(icon="images" fixed-width)
+              span Gallery
+            //- li: router-link.adminDrawer__link(:to="{name: 'admin-settings'}")
+            //-   fa.adminDrawer__link__icon(icon="cog" fixed-width)
+            //-   span Settings
+            li: router-link.adminDrawer__link(:to="{name: 'admin-editors'}")
+              fa.adminDrawer__link__icon(icon="users" fixed-width)
+              span Editors
+    aside.adminDrawer
+      
+          
       nav.adminDrawer__nav
-        ul(@click="sidebarShown = false")
+        ul
+          li: router-link.adminDrawer__link(to="/" style="border-left-color: transparent; margin-top: 1rem; margin-bottom: 1rem;")
+            fa.adminDrawer__link__icon(icon="home")
+            span(style="color: #049FD9") Back to Home
           li: router-link.adminDrawer__link(:to="{name: 'admin-feed'}")
             fa.adminDrawer__link__icon(icon="bullhorn" fixed-width)
-            span Feed
+            span News
           li: router-link.adminDrawer__link(:to="{name: 'admin-events'}")
             fa.adminDrawer__link__icon(icon="calendar-alt" fixed-width)
             span Events
           li: router-link.adminDrawer__link(:to="{name: 'admin-gallery'}")
             fa.adminDrawer__link__icon(icon="images" fixed-width)
             span Gallery
-          li: router-link.adminDrawer__link(:to="{name: 'admin-settings'}")
-            fa.adminDrawer__link__icon(icon="cog" fixed-width)
-            span Settings
+          //- li: router-link.adminDrawer__link(:to="{name: 'admin-settings'}")
+          //-   fa.adminDrawer__link__icon(icon="cog" fixed-width)
+          //-   span Settings
           li: router-link.adminDrawer__link(:to="{name: 'admin-editors'}")
             fa.adminDrawer__link__icon(icon="users" fixed-width)
             span Editors
-  aside.adminDrawer
-    header.adminDrawer__header
-    nav.adminDrawer__nav
-      ul
-        li: router-link.adminDrawer__link(:to="{name: 'admin-feed'}")
-          fa.adminDrawer__link__icon(icon="bullhorn" fixed-width)
-          span Feed
-        li: router-link.adminDrawer__link(:to="{name: 'admin-events'}")
-          fa.adminDrawer__link__icon(icon="calendar-alt" fixed-width)
-          span Events
-        li: router-link.adminDrawer__link(:to="{name: 'admin-gallery'}")
-          fa.adminDrawer__link__icon(icon="images" fixed-width)
-          span Gallery
-        li: router-link.adminDrawer__link(:to="{name: 'admin-settings'}")
-          fa.adminDrawer__link__icon(icon="cog" fixed-width)
-          span Settings
-        li: router-link.adminDrawer__link(:to="{name: 'admin-editors'}")
-          fa.adminDrawer__link__icon(icon="users" fixed-width)
-          span Editors
-  main.adminMain
-    header.adminHeader
-      .adminHeader__action.adminHeader__menu(@click="sidebarShown = true")
-        fa(icon="bars")
-      span
-      button.adminHeader__backToHome(@click="$router.push('/')")
-        span Back to Home &nbsp;
-        fa(icon="sign-out-alt")
-    router-view
+    main.adminMain
+      header.adminHeader
+        .adminHeader__action.adminHeader__menu(@click="sidebarShown = true")
+          fa(icon="bars")
+        b-button.is-danger.is-outlined(@click="$store.dispatch('signOut'); $router.push('/')" style="margin-left: auto;border-width: 1px")
+          span Sign out &nbsp;
+          fa(icon="sign-out-alt")
+        
+      router-view
     
+
+  div.notAuthenticated(v-if="$store.state.auth.user != null && $store.state.auth.isAuthorized == false")
+    h3.title.is-1 Sorry :(
+    p You are not allowed to access this feature. Please contact the administrator.
+    br
+    b-button(@click="$store.dispatch('signOut'); $router.push('/')") Back to Home
 </template>
 
 
@@ -60,6 +75,9 @@ export default {
     return {
       sidebarShown: false
     }
+  },
+  mounted(){
+    this.$store.dispatch('initializeUI')
   }
 }
 </script>
@@ -69,7 +87,8 @@ export default {
 @import ../assets/style
 
 
-  
+#adminWrapper
+  background-color: white
 
 #admin
   display: flex
@@ -111,7 +130,6 @@ export default {
       fill: $color-primary
 
 .adminDrawer__header
-  border-bottom: 1px solid $color-layout-border
   height: 3.5rem
 
 .adminDrawer__nav
@@ -157,10 +175,6 @@ export default {
   @include from($tablet-landscape)
     display: none
 
-.adminHeader__backToHome
-  background-color: transparent
-  margin-right: 0.25rem
-
   &:hover
     background-color: #00000011
 
@@ -169,6 +183,12 @@ export default {
   display: flex
   flex-direction: column
 
-
+.notAuthenticated
+  width: 100vw
+  height: 100vh
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
 
 </style>

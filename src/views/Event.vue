@@ -4,11 +4,15 @@
     button.feedPost__back(@click="$router.back('/')")
       fa(icon="angle-left")
       span &nbsp; Back to Home
+    router-link.title.is-4(to="/events" style="margin: 0; padding: 0; font-weight: lighter; font-size: 1.5rem; text-transform: uppercase")
+      span C3P
+      i(style="color: #049FD9") &nbsp;Events
+    span(style="display: inline-block; width: 8rem")
   header.feedPost__contentHeader
     div
-      h1.feedPost__title {{ event.title }}
-      h3.feedPost__subtitle {{ event.venue}}
-      h3.feedPost__subtitle {{ event.start.toDate().toDateString()}}
+      h1.title.is-1.feedPost__title(style="margin-bottom: 1rem") {{ event.title }}
+      h3.subtitle.is-3.feedPost__subtitle(style="margin-bottom: 1rem;") {{ event.venue}}
+      b(style="color: #049FD9") {{ event.start.toDate().toDateString()}}
     div
       a.feedPost__register(:href="event.registrationLink" target="_blank" v-if="event.registrationAllowed") Register
       a.feedPost__feedback(:href="event.registrationLink" target="_blank" v-if="event.feedbackAllowed") Feedback
@@ -18,12 +22,20 @@
 
 <style lang="sass" scoped>
 @import '../assets/style'
+#feedPost
+  background-color: white
+  border-top: 5px solid $color-primary
 
 .feedPost__header
   max-width: 900px
-  padding: 0 $pad
+  padding: $pad 0
   margin-left: auto
   margin-right: auto
+  display: flex
+  align-items: center
+  justify-content: space-between
+  width: 100%
+  border-bottom: 1px solid #dddddd
 
 .feedPost__contentHeader
   @include to($tablet-portrait)
@@ -39,6 +51,7 @@
 .feedPost__register,.feedPost__feedback
   text-align: center
   display: block
+  border-radius: 5rem !important
   padding: 0.5rem 3rem
   
   text-decoration: none
@@ -48,7 +61,7 @@
     margin-top: $pad
 
 .feedPost__register
-  background-color: $color-primary
+  background-color: $color-green-accent
   color: $color-against-primary
   @include actionable-primary
 
@@ -64,6 +77,8 @@
   background-size: cover
   background-position: center
   border: none
+  max-width: 900px
+  margin: auto
 
 .feedPost__subtitle
   opacity: 0.5
@@ -82,9 +97,7 @@
     line-height: 2.25rem
 
 .feedPost__back
-  margin-top: $pad
   background-color: transparent
-  border: 1px solid $color-layout-border
 </style>
 
 

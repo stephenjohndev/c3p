@@ -2,7 +2,7 @@
   #homeLatest
     layout-container
       .homeLatest__nav
-        h2.homeLatest__label Latest
+        h2.homeLatest__label Latest News
         .homeLatest__controls
           .homeLatest__control(@click="$refs.carousel.goToPage($refs.carousel.getPreviousPage())")
             fa(icon="angle-left")
@@ -13,7 +13,7 @@
       .homeLatest__items
         carousel(ref="carousel" v-model="currentSlide" :loop="true" :perPage="1" :perPageCustom="[[600, $store.state.feed.latest.length >=3 ? 3 : $store.state.feed.latest.length]]" :paginationEnabled="false")
           slide(v-for="latest, index in $store.state.feed.latest" :key="index")
-            router-link.homeLatest__item(:to="'/feed/' + latest.id")
+            router-link.homeLatest__item(:to="'/news/' + latest.id")
               .homeLatest__banner(:style="{backgroundImage: 'url(' + latest.cover + ')'}")
               h3.homeLatest__title {{ latest.title }}
               p.homeLatest__content.unsetNodes(v-line-clamp:24="2" v-html="latest.body")
@@ -27,8 +27,7 @@
 #homeLatest
   padding-top: $pad*2
   padding-bottom: $pad*2
-  background-color: $color-primary
-  color: $color-against-primary
+  background-color: $color-background-light
 
 .homeLatest__nav
   display: flex
@@ -38,6 +37,9 @@
     justify-content: center
 
 .homeLatest__label
+  color: $color-primary
+  font-size: 1.5rem
+  font-weight: lighter
   
 
 .homeLatest__controls
@@ -71,7 +73,9 @@
   color: inherit
   display: block
   text-decoration: none
-  @include actionable-primary
+  
+  &:hover
+    background-color: $color-background
 
 .homeLatest__item + .homeLatest__item
   @include from($tablet-portrait)
@@ -89,7 +93,8 @@
     height: 10rem
 
 .homeLatest__title
-  font-weight: 500
+  font-weight: lighter
+  font-size: 1.2em
 
 
 .homeLatest__content
@@ -98,20 +103,20 @@
 
 .homeLatest__readmore
   text-decoration: none
-  color: $color-against-primary
+  color: $color-text-unactive
   font-weight: 500
   display: inline-block
 
 .homeLatest__seeAll
   padding: 0.5rem 1.5rem
   text-align: center
-  background-color: $color-primary
+  background-color: $color-green-accent
   color: $color-against-primary
   font-weight: 500
   border-radius: 2rem
   display: inline-block
   text-decoration: none
-  @include actionable-primary
+  @include actionable-green
 
   @include from($tablet-portrait)
     margin-top: $pad

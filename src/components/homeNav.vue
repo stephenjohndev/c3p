@@ -17,9 +17,9 @@
                     router-link.homeNav__sublink(:to="sublink.link")  {{ sublink.name }}
               
 
-            .homeNav__action
-              fa(icon="search" @click="search")
-            span.homeNav__divider
+            //- .homeNav__action
+            //-   fa(icon="search" @click="search")
+            //- span.homeNav__divider
             .homeNav__action(@click="$router.push({name: 'Admin'})")
               fa(icon="user-cog")
 
@@ -41,14 +41,14 @@
 
 #homeNav
   z-index: 10
-  background-color: $color-primary
+  border-bottom: 1px solid $color-layout-border-inverted
   // position: sticky
   // top: 0
   
     
 
 header
-  background-color: $color-accent-dark
+  background-color: $color-background-light
   border-bottom: 1px solid $color-layout-border-inverted
   @include from($tablet-landscape)
     height: 6rem
@@ -57,6 +57,7 @@ header
 .company-logo
   @include to($tablet-portrait)
     display: none !important
+
 
 .homeNav__innerWrapper
   display: flex
@@ -69,6 +70,7 @@ header
 
 .homeNav__links
   list-style: none
+  font-size: 0.9em
   padding: none
   display: flex
 
@@ -85,6 +87,9 @@ header
   position: absolute
   background-color: $color-against-primary
 
+.homeNav__link:hover
+  background-color: $color-primary-translucent !important
+  color: $color-primary
 
 .homeNav__link:hover + .homeNav__sublinks
   opacity: 1
@@ -98,7 +103,7 @@ header
   display: flex
   align-items: center
   border-radius: 2rem
-  color: $color-against-primary
+  color: $color-text-unactive
   text-decoration: none
   @include actionable-primary
 
@@ -120,7 +125,7 @@ header
     background-color: $color-primary-translucent
 
 .homeNav__action
-  color: $color-against-primary
+  color: $color-text-unactive
   padding: $pad
   width: 3rem
   margin: 0.5rem
@@ -131,6 +136,10 @@ header
   justify-content: center
   border-radius: 50%
   @include actionable-primary
+
+  &:hover
+    background-color: $color-primary-translucent !important
+    color: $color-primary
 
 .homeNav__action + .homeNav__action
   margin-left: 0
@@ -170,7 +179,7 @@ header
 .homeNav__divider
   height: 2rem
   width: 1px
-  background-color: $color-accent
+  background-color: $color-text-unactive
   display: block
   margin-left: 1.5rem
   opacity: 0.5
@@ -236,38 +245,43 @@ export default {
 					name: "Home",
 					link: "/",
 					child: []
+        },
+        {
+					name: "News",
+					link: "/news",
+					child: []
 				},
 				{
 					name: "Events",
 					link: "/events",
 					child: []
 				},
-				{
-					name: "Programs",
-					link: "/#!",
-					child: [
-						{
-							name: "Women Rock IT",
-							link: "/programs/WomenRockIT",
-							child: []
-						},
-						{
-							name: "Find Yourself in the Future",
-							link: "/programs/FindYourselfintheFuture",
-							child: []
-						},
-						{
-							name: "NetAcad Talent Bridge",
-							link: "/programs/NetAcadTalentBridge",
-							child: []
-						},
-						{
-							name: "CyberSecurity Student Competition",
-							link: "/programs/CyberSecurityStudentCompetition",
-							child: []
-						}
-					]
-				},
+				// {
+				// 	name: "Programs",
+				// 	link: "/#!",
+				// 	child: [
+				// 		{
+				// 			name: "Women Rock IT",
+				// 			link: "/programs/WomenRockIT",
+				// 			child: []
+				// 		},
+				// 		{
+				// 			name: "Find Yourself in the Future",
+				// 			link: "/programs/FindYourselfintheFuture",
+				// 			child: []
+				// 		},
+				// 		{
+				// 			name: "NetAcad Talent Bridge",
+				// 			link: "/programs/NetAcadTalentBridge",
+				// 			child: []
+				// 		},
+				// 		{
+				// 			name: "CyberSecurity Student Competition",
+				// 			link: "/programs/CyberSecurityStudentCompetition",
+				// 			child: []
+				// 		}
+				// 	]
+				// },
 				{
 					name: "Gallery",
 					link: "/gallery",

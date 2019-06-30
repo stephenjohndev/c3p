@@ -38,6 +38,8 @@
 .homeAbout__title
   color: $color-primary
   margin-bottom: 1rem
+  font-size: 1.5rem
+  font-weight: lighter
 
 .homeAbout__titleDivider
   width: 5rem
@@ -49,7 +51,7 @@
 .homeAbout__body
   opacity: 0.7
   @include from($tablet-landscape)
-    line-height: 1.75rem
+    line-height: 2rem
     display: block
     max-width: 40vw
 

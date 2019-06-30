@@ -7,6 +7,15 @@
   &:active
     background-color: $color-primary-active
 
+@mixin actionable-green
+  cursor: pointer
+  transition: 0.2s background-color
+  -webkit-tap-highlight-color: transparent
+  &:hover
+    background-color: darken($color-green-accent, 5)
+  &:active
+    background-color: darken($color-green-accent, 10)
+
 @mixin actionable-primary-dark
   cursor: pointer
   transition: 0.2s background-color

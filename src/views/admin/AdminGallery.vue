@@ -1,9 +1,11 @@
 <template lang="pug">
   #admin-gallery
-
+    b-loading(:active.sync="isUploading" :can-cancel="true")
+      span Uploading {{ uploadedCount }} of {{ Object.values(files).length }} photos...
+                
     section.galleryControl
       header.galleryControl__header
-        button(@click="$router.push('/admin/gallery/new')").--primary Add New
+        button(@click="$router.push('/admin/gallery/new')").--primary New Album
       section.galleryControl__albums
         router-link.galleryCard(:to="'/admin/gallery/' + post.id" v-for="post,index in $store.state.gallery.gallery" :key="index" :class="{'gallerycard--isHighlight': post.isHighlight}")
           h1.galleryCard__header
@@ -25,18 +27,17 @@
           .selectedPost__action(v-show="$store.getters.preventLeave && $route.params.id != 'new'" @click="save")
             fa(icon="save")
             span &nbsp Save
-          .selectedPost__action(v-show="$route.params.id == 'new'" @click="publish")
-            fa(icon="save")
-            span &nbsp Publish
       div(style="padding: 1rem; background-color: white")
         label Title
-        input.field(type="text" :value="c_activePost.title" style="display: block")
+        input.field(type="text" v-model="title" style="display: block" @input="isDifferent")
         label Description
-        input.field(type="text" :value="c_activePost.description" style="display: block")
+        input.field(type="text" v-model="description" style="display: block" @input="isDifferent")
         br
-        .grid
-          div.grid__img(style="display: flex; align-items: center; justify-content: center; cursor: pointer" @click="uploadModalShown = true") + Add photos
+        .grid(v-if="$route.params.id != 'new'")
+          div.grid__img(style="display: flex; align-items: center; justify-content: center; cursor: pointer" @click="files = {}; uploadModalShown = true") + Add photos
           img.grid__img(:src="photo.url" v-for="photo in c_activePost.photos")
+        div(style="display: flex")
+          b-button.is-primary(@click="publish" v-if="$route.params.id == 'new'" style="line-height: initial !important; margin-left: auto") Create album
 
         div( v-if="uploadModalShown" style="position: fixed; top: 0; width: 100%; height: 100%; left: 0; display: flex; align-items: center; justify-content: center; background-color: #00000055")
           div(style="background-color: white; width: 100%; max-width: 700px; border-radius: 0.25rem; padding: 1rem")
@@ -57,7 +58,10 @@
 
 <script>
 import { db, firebaseui, storageRef } from "../../firebase";
+import { Toast } from "buefy/dist/components/toast";
+import { Snackbar } from "buefy/dist/components/snackbar";
 import { firestore } from "firebase";
+
 export default {
 	mounted() {
 		this.$store.dispatch("loadGallery");
@@ -65,18 +69,64 @@ export default {
 	data() {
 		return {
 			files: {},
-      uploadModalShown: false
+			uploadModalShown: false,
+			title: "",
+      description: "",
+      uploadedCount: 0,
+      isUploading: false
 		};
 	},
 	methods: {
-		deletePost() {},
-		cancel() {},
-		save() {},
-		publish() {},
+		isDifferent() {
+			if (
+				this.$route.params.id != "new" &&
+				this.title + this.description !=
+					this.c_activePost.title + this.c_activePost.description
+			) {
+				this.$store.commit("setPreventLeave", true);
+			} else {
+				this.$store.commit("setPreventLeave", false);
+			}
+		},
+		deletePost() {
+			db.collection("gallery")
+        .doc(this.c_activePost.id)
+				.delete()
+				.then(() => {
+					Toast.open("Album deleted");
+				});
+		},
+		cancel() {
+			this.$store.commit("setPreventLeave", false);
+			this.title = this.c_activePost.title;
+			this.description = this.c_activePost.description;
+		},
+		save() {
+			db.collection("gallery")
+				.doc(this.c_activePost.id)
+				.set({
+					title: this.title,
+					description: this.description
+				})
+				.then(() => {
+					Toast.open("Updated");
+				});
+		},
+		publish() {
+			db.collection("gallery")
+				.add({
+					title: this.title,
+					description: this.description
+				})
+				.then(doc => {
+					Toast.open("Album created");
+					this.$router.push("/admin/gallery/" + doc.id);
+				});
+		},
 		uploadFiles() {
-			window.alert(this.c_activePost.id);
-			window.alert(this.files[0]);
-			Object.values(this.files).forEach(file => {
+      this.isUploading = true
+			var readyFiles = Object.values(this.files);
+			readyFiles.forEach(file => {
 				var randomInt = Math.floor(Math.random() * 1000000);
 				var filename = randomInt + "_" + file.name;
 				var fileRef = storageRef.child("images/" + filename);
@@ -89,10 +139,18 @@ export default {
 								url: fileURL
 							})
 							.then(() => {
-                window.alert('success')
+                this.uploadedCount++;
+                if(this.uploadedCount == readyFiles.length){
+                  this.isUploading = false
+                  this.uploadedCount = 0
+                  this.files = {}
+                  this.uploadModalShown = false
+                  Toast.open('Done uploading photos')
+
+                }
 							})
 							.catch(error => {
-                window.alert('error')
+								window.alert(error);
 							});
 					});
 				});
@@ -100,7 +158,7 @@ export default {
 		},
 		previewFile() {
 			var preview = document.querySelector("#preview");
-      preview.innerHTML = "";
+			preview.innerHTML = "";
 			var files = document.querySelector("input[type=file]").files;
 
 			function readAndPreview(file) {
@@ -114,10 +172,10 @@ export default {
 							var image = new Image();
 							image.height = 100;
 							image.title = file.name;
-              image.src = this.result;
-              image.style.margin = '2px';
-              preview.appendChild(image);
-              width = 100;
+							image.src = this.result;
+							image.style.margin = "2px";
+							preview.appendChild(image);
+							width = 100;
 						},
 						false
 					);
@@ -134,9 +192,23 @@ export default {
 	},
 	computed: {
 		c_activePost() {
+			if (this.$route.params.id == "new") {
+				return {
+					title: "",
+					description: "",
+					photos: []
+				};
+			}
 			return this.$store.state.gallery.gallery.find(
 				album => album.id == this.$route.params.id
 			);
+		}
+	},
+	watch: {
+		c_activePost(value) {
+			this.title = value.title;
+			this.description = value.description;
+			this.photos = value.photos;
 		}
 	}
 };

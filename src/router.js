@@ -30,12 +30,12 @@ var router = new Router({
       component: Home
     },
     {
-      path: '/feed',
+      path: '/news',
       name: 'Feed',
       component: Feed
     },
     {
-      path: '/feed/:id',
+      path: '/news/:id',
       name: 'Feedpost',
       component: Feedpost
     },
@@ -63,15 +63,15 @@ var router = new Router({
       path: '/admin',
       name: 'Admin',
       component: Admin,
-      redirect: '/admin/feed',
+      redirect: '/admin/news',
       children: [
         {
-          path: 'feed',
+          path: 'news',
           name: 'admin-feed',
           component: AdminFeed
         },
         {
-          path: 'feed/:id',
+          path: 'news/:id',
           component: AdminFeed
         },
         {

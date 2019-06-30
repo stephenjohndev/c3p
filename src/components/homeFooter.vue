@@ -16,10 +16,6 @@
               li: a(href="/events") Events
               li: a(href="/programs") Programs
               li: a(href="/gallery") Gallery
-            ul.footer_links.footer_links--secondary
-              li: a(href="/contact") Contact
-              li: a(href="/terms") Terms of Service
-              li: a(href="/privacypolicy") Privacy Policy
         div
           h4.footer__header Follow us
           ul.footer_links

@@ -3,7 +3,7 @@
 
     section.eventsControl
       header.eventsControl__header
-        button(@click="$router.push('/admin/events/new')").--primary Add New
+        button(@click="$router.push('/admin/events/new')").--primary New Event
       section.eventsControl__eventss
         router-link.eventsCard(:to="'/admin/events/' + event.id" v-for="event,index in $store.state.events.events" :key="index")
           h1.eventsCard__title {{ event.title }}
@@ -173,7 +173,6 @@ export default {
 						feedbackAllowed: this.feedbackAllowed
 					})
 					.then(() => {
-						alert("Published!");
 						this.resetPost();
 						this.$router.replace("/admin/events");
 					})
@@ -281,6 +280,7 @@ export default {
 .eventsControl
   @include from($tablet-landscape)
     border-right: 1px solid $color-layout-border
+  width: 100%
   padding: 1rem
   overflow-y: auto
   overflow-x: hidden

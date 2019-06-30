@@ -4,11 +4,12 @@
     
     div.events
       layout-container
+        h1(style="margin-top: 1.5rem").title Events
         router-link.event(v-for="event, index in $store.state.events.events" :to="'/events/' + event.id" :key="event.id")
           div.event__banner(:style="{backgroundImage: 'url(' + event.cover + ')'}")
           div.event__contents
-            h2.event__title {{ event.title }}
-            h3.feedPost__subtitle {{ event.venue}}
+            h2.title.is-2.event__title {{ event.title }}
+            h4.subtitle.is-4.feedPost__subtitle {{ event.venue}}
             h3.feedPost__date {{ event.start.toDate().toDateString()}}
 
 </template>
@@ -25,6 +26,10 @@
   align-items: center
   justify-content: space-between
   height: 4rem
+
+.event__title
+  font-weight: lighter
+  margin-bottom: 1.5rem
   
 
 .eventsNav__action
@@ -42,8 +47,7 @@
 .eventsNav__action--small
   width: 3rem
 
-.events
-  margin-top: $pad*2
+
 
 .event
   border-radius: 0.5rem
@@ -78,7 +82,7 @@
   color: #555
 
 .feedPost__date
-  margin-top: 1rem
+  margin-top: 2rem
   font-weight: normal
   color: $color-primary
 

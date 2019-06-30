@@ -17,8 +17,7 @@ export default {
     // Load
     loadGallery ({ commit }) {
       db.collection('gallery')
-        .get()
-        .then(snapshot => {
+        .onSnapshot(snapshot => {
           var gallery = snapshot.docs.map(doc => {
             // Get document data object
             var docObject = doc.data();
@@ -29,8 +28,7 @@ export default {
             // Return the new data object
             doc.ref
               .collection('photos')
-              .get()
-              .then(snapshot => {
+              .onSnapshot(snapshot => {
                 var photos = snapshot.docs.map(doc => {
                   // Get document data object
                   var docObject = doc.data();
@@ -52,23 +50,7 @@ export default {
           commit('setGallery', gallery);
         });
     },
-    loadPreviewPhotos ({ commit }, albumId) {
-      db.collection('gallery')
-        .doc(albumId)
-        .collection('photos')
-        .get()
-        .then(snapshot => {
-          var photos = snapshot.docs.map(doc => {
-            // Get document data object
-            var docObject = doc.data();
-            // Add id key to data object
-            docObject.id = doc.id;
-            // Return the new data object
-            return docObject;
-          });
-          return photos;
-        });
-    },
+
     pushToAlbum ({ commit }, payload) {
       var albumId = payload.id;
       var photoUrl = payload.url;

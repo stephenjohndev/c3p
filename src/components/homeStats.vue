@@ -33,6 +33,7 @@
 
 .homeStats__title
   margin-bottom: $pad
+  font-size: 1.5rem
 
 .homeStats__subtitle
   opacity: 0.7

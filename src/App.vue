@@ -1,6 +1,5 @@
 <template lang="pug">
   #app
-    //- #firebaseui-auth-container(v-if="!$store.state.user")
     transition(name="fade" mode="out-in")
       router-view
   
@@ -8,7 +7,8 @@
 
 <style lang="sass">
 @import './assets/style'
-
+html
+  overflow-y: auto !important
 body
   font-family: sans-serif
   color: #333
