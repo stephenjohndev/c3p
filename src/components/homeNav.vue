@@ -1,7 +1,7 @@
 <template lang="pug">
   #homeNav
     headroom(style='width: 100%' :speed="200")
-      header
+      header(style="border-bottom: 1px solid #eeeeee")
         layout-container.homeNav__innerWrapper(extendboth)
           .homeNav__actionGroup
             .homeNav__action.homeNav__bars(@click="sidebarShown = true")
@@ -41,7 +41,7 @@
 
 #homeNav
   z-index: 10
-  border-bottom: 1px solid $color-layout-border-inverted
+  // border-bottom: 1px solid $color-layout-border-inverted
   // position: sticky
   // top: 0
   
@@ -51,8 +51,8 @@ header
   background-color: $color-background-light
   border-bottom: 1px solid $color-layout-border-inverted
   @include from($tablet-landscape)
-    height: 6rem
     display: flex
+    height: 6rem
 
 .company-logo
   @include to($tablet-portrait)

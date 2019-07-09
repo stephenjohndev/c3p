@@ -1,17 +1,16 @@
 <template lang="pug">
 #feedPost
   header.feedPost__header
-    button.feedPost__back(@click="$router.back('/')")
-      fa(icon="angle-left")
-      span &nbsp; Back to Home
+    button.feedPost__back(@click="$router.push('/')")
+      fa(icon="home")
+      span &nbsp; Home
     router-link.title.is-4(to="/events" style="margin: 0; padding: 0; font-weight: lighter; font-size: 1.5rem; text-transform: uppercase")
-      span C3P
-      i(style="color: #049FD9") &nbsp;Events
-    span(style="display: inline-block; width: 8rem")
+      i(style="color: #049FD9") Events
+    span(style="display: inline-block; width: 4rem")
   header.feedPost__contentHeader
     div
-      h1.title.is-1.feedPost__title(style="margin-bottom: 1rem") {{ event.title }}
-      h3.subtitle.is-3.feedPost__subtitle(style="margin-bottom: 1rem;") {{ event.venue}}
+      h2.title.is-2.feedPost__title(style="margin-bottom: 1rem") {{ event.title }}
+      h4.subtitle.is-4.feedPost__subtitle(style="margin-bottom: 1rem;") {{ event.venue}}
       b(style="color: #049FD9") {{ event.start.toDate().toDateString()}}
     div
       a.feedPost__register(:href="event.registrationLink" target="_blank" v-if="event.registrationAllowed") Register
@@ -25,6 +24,7 @@
 #feedPost
   background-color: white
   border-top: 5px solid $color-primary
+  
 
 .feedPost__header
   max-width: 900px
@@ -77,7 +77,7 @@
   background-size: cover
   background-position: center
   border: none
-  max-width: 900px
+  max-width: calc(900px - 3rem)
   margin: auto
 
 .feedPost__subtitle

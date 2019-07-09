@@ -8,8 +8,8 @@
         router-link.event(v-for="event, index in $store.state.events.events" :to="'/events/' + event.id" :key="event.id")
           div.event__banner(:style="{backgroundImage: 'url(' + event.cover + ')'}")
           div.event__contents
-            h2.title.is-2.event__title {{ event.title }}
-            h4.subtitle.is-4.feedPost__subtitle {{ event.venue}}
+            h2.title.is-3.event__title {{ event.title }}
+            h4.subtitle.is-5.feedPost__subtitle {{ event.venue}}
             h3.feedPost__date {{ event.start.toDate().toDateString()}}
 
 </template>

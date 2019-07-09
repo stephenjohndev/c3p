@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { db, firebaseui, storageRef } from './firebase';
-import * as firebase from 'firebase/app';
 
 // Import modules
 import feed from './modules/feed';

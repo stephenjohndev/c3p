@@ -1,33 +1,48 @@
 <template lang="pug">
   #feed
-    header.feedHeader
-      layout-container(extendboth)
-        nav.feedNav
-          router-link.feedNav__action(:to="{name: 'Home'}")
-            fa(icon="home")
-            span &nbsp; Home
-          h1.title.is-4(style="color: white; font-weight: lighter; margin-bottom: 0")
-            b C3P
-            i &nbsp;News
-          .feedNav__action.feedNav__action--small(style="margin-left: 3rem")
-            fa(icon="ellipsis-v")
+    header.feedPost__header
+      button.feedPost__back(@click="$router.back('/')")
+        fa(icon="home")
+        span &nbsp; Home
+      router-link.title.is-4(to="/news" style="margin: 0; padding: 0; font-weight: lighter; font-size: 1.5rem; text-transform: uppercase")
+        i(style="color: #049FD9") News
+      span(style="display: inline-block; width: 8rem")
     
     div.feeds
-      layout-container
+      layout-container(style="max-width: 900px")
         router-link.feed(v-for="post, index in $store.state.feed.feed" :to="'/news/' + post.id" :key="post.id")
           div.feed__banner(:style="{backgroundImage: 'url(' + post.cover + ')'}")
           div.feed__contents
             h3.title.is-3.feed__title {{ post.title }}
-            p.feed__content.unsetNodes(v-line-clamp:72="6" v-html="post.body")
+            p.feed__content.unsetNodes(v-line-clamp:32="6" v-html="post.body")
+
 
 </template>
 
 <style lang="sass" scoped>
 @import '../assets/style'
 
-.feedHeader
-  background-color: $color-primary
-  color: $color-against-primary
+#feed
+  border-top: 5px solid $color-primary
+  background-color: $color-background-light
+
+.feedPost__header
+  max-width: 900px
+  margin-left: auto
+  padding: $pad 0
+  margin-right: auto
+  display: flex
+  align-items: center
+  justify-content: space-between
+  width: 100%
+  border-bottom: 1px solid #dddddd
+
+.feedPost__title
+  padding: $pad*2 $pad
+  max-width: 900px
+  margin-left: auto
+  margin-right: auto
+  font-weight: lighter
 
 .feed__title
   font-weight: lighter
@@ -69,6 +84,8 @@
   cursor: pointer
   text-decoration: none
   color: inherit
+  &:hover
+    background-color: rgba(0,0,0,0.025)
 
   @include from($tablet-portrait)
     grid-template-columns: 1fr 1fr
@@ -82,14 +99,17 @@
   background-size: cover
   background-position: center
 
-  height: 60vw
+  height: 40vw
   @include from($tablet-portrait)
-    height: 20rem
+    height: 100%
   
 
 .feed__contents
   padding: $pad*2
   
+
+.feedPost__back
+  background-color: transparent
 
 </style>
 

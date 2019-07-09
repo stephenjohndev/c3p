@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import firebaseui from 'firebaseui';
 // Add the Firebase services that you want to use
 import 'firebase/firestore';
@@ -19,7 +19,14 @@ firebase.initializeApp(config);
 
 // Configure Firestore
 var db = firebase.firestore();
-db.enablePersistence();
+var xdb = indexedDB.open('foo');
+xdb.onsuccess = () => {
+  db.enablePersistence().catch(error => {
+    console.error('persistence error');
+    console.error(error);
+  });
+};
+xdb.onerror = () => { /* don't enable persistence */ };
 
 // Configure Storage
 var storageRef = firebase.storage().ref();

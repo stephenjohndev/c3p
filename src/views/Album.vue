@@ -4,7 +4,7 @@
     button.album__back(@click="$router.back('/')")
       fa(icon="angle-left")
       span &nbsp; Back to Home
-  h1.album__title {{ album.title }}
+  h2.title.is-2.album__title {{ album.title }}
   layoutContainer
     .photos
       .photo(v-for="photo in photos" :style="{ backgroundImage: `url('${photo.url}')` }")

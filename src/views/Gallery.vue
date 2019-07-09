@@ -14,6 +14,8 @@
 
 <style lang="sass" scoped>
 @import '../assets/style'
+#gallery
+  min-height: 97vh
 .none
   display: none
 .title,

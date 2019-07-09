@@ -61,11 +61,13 @@
       router-view
     
 
-  div.notAuthenticated(v-if="$store.state.auth.user != null && $store.state.auth.isAuthorized == false")
+  div.notAuthenticated(v-else-if="$store.state.auth.user != null && $store.state.auth.isAuthorized == false")
     h3.title.is-1 Sorry :(
     p You are not allowed to access this feature. Please contact the administrator.
     br
     b-button(@click="$store.dispatch('signOut'); $router.push('/')") Back to Home
+  div(v-else)
+    h6 Please wait...
 </template>
 
 

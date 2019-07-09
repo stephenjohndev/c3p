@@ -10,7 +10,7 @@
 html
   overflow-y: auto !important
 body
-  font-family: sans-serif
+  font-family: CiscoSans, sans-serif
   color: #333
   background-color: #f5f5f5
 </style>

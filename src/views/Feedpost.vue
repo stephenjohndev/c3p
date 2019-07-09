@@ -3,12 +3,11 @@
   header.feedPost__header
     button.feedPost__back(@click="$router.back('/')")
       fa(icon="angle-left")
-      span &nbsp; Back to Home
-    router-link.title.is-4(to="/news" style="margin: 0; padding: 0; font-weight: lighter; font-size: 1.5rem; text-transform: uppercase")
-      span C3P
-      i(style="color: #049FD9") &nbsp;News
-    span(style="display: inline-block; width: 8rem")
-  h1.title.is-1.feedPost__title {{ currentPost.title }}
+      span &nbsp; Back
+    router-link.title.is-4.is-paddingless(to="/news" style="margin: 0; padding: 0; font-weight: lighter; font-size: 1.5rem; text-transform: uppercase")
+      i(style="color: #049FD9") News
+    span(style="display: inline-block; width: 4rem")
+  h2.title.is-2.feedPost__title {{ currentPost.title }}
   div.feedPost__cover(:style="{backgroundImage: 'url(' + currentPost.cover + ')'}")
   p.feedPost__body(v-html="currentPost.body")
 </template>
@@ -41,12 +40,13 @@
   font-weight: lighter
 .feedPost__cover
   width: 100%
-  max-width: 900px
+  max-width: calc(900px - 3rem)
   margin: auto
   height: 20rem
   background-size: cover
   background-position: center
   border: none
+
 .feedPost__body
   padding: $pad*2 $pad
   line-height: 1.5rem

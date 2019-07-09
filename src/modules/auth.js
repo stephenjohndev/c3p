@@ -1,5 +1,9 @@
 import { db, firebaseui } from '../firebase';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
+// Add the Firebase services that you want to use
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/storage';
 import { Toast } from 'buefy/dist/components/toast';
 
 var ui = new firebaseui.auth.AuthUI(firebase.auth());

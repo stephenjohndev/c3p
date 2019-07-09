@@ -157,7 +157,7 @@
   padding-right: $pad
   display: inline-block
   border-radius: 4rem
-  @include actionable-primary
+  cursor: pointer
 
 
 
