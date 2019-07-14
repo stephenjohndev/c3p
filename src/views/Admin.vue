@@ -66,8 +66,8 @@
     p You are not allowed to access this feature. Please contact the administrator.
     br
     b-button(@click="$store.dispatch('signOut'); $router.push('/')") Back to Home
-  div(v-else)
-    h6 Please wait...
+  div(v-else style="position: fixed; top: 0; left: 0")
+    h6(v-if="$store.state.auth.user") Please wait...
 </template>
 
 
@@ -79,7 +79,8 @@ export default {
     }
   },
   mounted(){
-    this.$store.dispatch('initializeUI')
+      this.$store.dispatch('initializeUI')
+    
   }
 }
 </script>
