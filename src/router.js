@@ -15,6 +15,7 @@ import AdminFeed from './views/admin/AdminFeed.vue';
 import AdminEvents from './views/admin/AdminEvents.vue';
 import AdminGallery from './views/admin/AdminGallery.vue';
 import AdminEditors from './views/admin/AdminEditors.vue';
+import AdminSettings from './views/admin/AdminSettings.vue';
 
 import PageNotFound from './views/PageNotFound.vue';
 
@@ -95,7 +96,7 @@ var router = new Router({
         {
           path: 'settings',
           name: 'admin-settings',
-          component: PageNotFound
+          component: AdminSettings
         },
         {
           path: 'editors',

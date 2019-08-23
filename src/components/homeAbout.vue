@@ -4,7 +4,7 @@
     .homeAbout__content
       h2.homeAbout__title About C3P
       span.homeAbout__titleDivider
-      p.homeAbout__body {{ $store.state.config.about }}
+      p.homeAbout__body(style="white-space: pre-wrap") {{ $store.state.config.about }}
 
     
 

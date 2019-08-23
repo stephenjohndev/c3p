@@ -21,9 +21,9 @@
             li: router-link.adminDrawer__link(:to="{name: 'admin-gallery'}")
               fa.adminDrawer__link__icon(icon="images" fixed-width)
               span Gallery
-            //- li: router-link.adminDrawer__link(:to="{name: 'admin-settings'}")
-            //-   fa.adminDrawer__link__icon(icon="cog" fixed-width)
-            //-   span Settings
+            li: router-link.adminDrawer__link(:to="{name: 'admin-settings'}")
+              fa.adminDrawer__link__icon(icon="cog" fixed-width)
+              span Settings
             li: router-link.adminDrawer__link(:to="{name: 'admin-editors'}")
               fa.adminDrawer__link__icon(icon="users" fixed-width)
               span Editors
@@ -44,9 +44,9 @@
           li: router-link.adminDrawer__link(:to="{name: 'admin-gallery'}")
             fa.adminDrawer__link__icon(icon="images" fixed-width)
             span Gallery
-          //- li: router-link.adminDrawer__link(:to="{name: 'admin-settings'}")
-          //-   fa.adminDrawer__link__icon(icon="cog" fixed-width)
-          //-   span Settings
+          li: router-link.adminDrawer__link(:to="{name: 'admin-settings'}")
+            fa.adminDrawer__link__icon(icon="cog" fixed-width)
+            span Settings
           li: router-link.adminDrawer__link(:to="{name: 'admin-editors'}")
             fa.adminDrawer__link__icon(icon="users" fixed-width)
             span Editors
