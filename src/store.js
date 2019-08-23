@@ -7,6 +7,7 @@ import events from './modules/events';
 import gallery from './modules/gallery';
 import auth from './modules/auth';
 import users from './modules/users';
+import config from './modules/config';
 
 Vue.use(Vuex);
 
@@ -16,7 +17,8 @@ export default new Vuex.Store({
     events,
     gallery,
     auth,
-    users
+    users,
+    config
   },
   state: {
     preventLeave: false,
