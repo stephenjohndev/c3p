@@ -1,0 +1,30 @@
+$phone: 600px
+$tablet-portrait: 900px
+$tablet-landscape: 1200px
+$desktop: 1800px
+
+@mixin from($value)
+  $from: 0
+  @if $value == $tablet-portrait
+    $from: $phone
+  @elseif $value == $tablet-landscape
+    $from: $tablet-portrait
+  @elseif $value == $desktop
+    $from: $tablet-landscape
+  @media screen and (min-width: $from)
+    @content
+
+@mixin to($value)
+  @media screen and (max-width: $value)
+    @content
+
+@mixin only($value)
+  $from: 0
+  @if $value == $tablet-portrait
+    $from: $phone
+  @elseif $value == $tablet-landscape
+    $from: $tablet-portrait
+  @elseif $value == $desktop
+    $from: $tablet-landscape
+  @media screen and (min-width: $from) and (max-width: $value)
+    @content

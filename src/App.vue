@@ -1,8 +1,16 @@
 <template lang="pug">
-  router-view
+  #app
+    transition(name="fade" mode="out-in")
+      router-view
+  
 </template>
 
-<script>
-export default {
-};
-</script>
+<style lang="sass">
+@import './assets/style'
+html
+  overflow-y: auto !important
+body
+  font-family: CiscoSans, sans-serif
+  color: #333
+  background-color: #f5f5f5
+</style>
