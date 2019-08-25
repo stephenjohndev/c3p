@@ -15,6 +15,8 @@ To set the content displayed on the slideshow, go to [Admin Dashboard](https://c
 
 ![Set item to homepage slideshow](https://i.ibb.co/nfbdRxq/Capture.jpg)
 
+**(this guide is still a work in progress)**
+
 # Hacking the source code - Setup
 
 On your shell or terminal, clone the repository using the command: 
