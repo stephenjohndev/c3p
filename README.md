@@ -17,6 +17,11 @@ To set the content displayed on the slideshow, go to [Admin Dashboard](https://c
 
 **(this guide is still a work in progress)**
 
+# Accessing the raw database
+
+To open and make changes on the database, login to [Firebase console](https://firebase.google.com) using your authenticated email.
+![Firebase console](https://i.ibb.co/SRHSF4R/Capture.jpg)
+
 # Hacking the source code - Setup
 
 On your shell or terminal, clone the repository using the command: 
